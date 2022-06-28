@@ -1,0 +1,10 @@
+{
+  "Name": "Custom Data Contributor",
+  "IsCustom": true,
+  "Description": "Read access to Cosmos DB and Azure Storage Accounts",
+  "Actions": [],
+  "DataActions": [
+    "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
+  ],
+  "AssignableScopes": ["/subscriptions/19969c81-e8ff-4585-8c2f-3f196b588227"]
+}
