@@ -1,0 +1,167 @@
+
+=== Migrating from Azure Storage Tables to Azure Cosmos DB Table API
+
+==== Problem
+
+You want to migrate your data stored in Azure Storage Tables to Azure Cosmos DB Table API to benefit from Cosmos DB scalability, SLA and performance.
+
+==== Solution
+
+Use _Cosmos DB Data Migration Tool for Windows_ (https://learn.microsoft.com/en-us/azure/cosmos-db/import-data) to migrate your small to mid-size tables to Cosmos DB (Figure 4-6).
+
+[[figure-4-6]]
+.Migrating Data to Azure Cosmos DB Using the Data Migration Tool
+image::images/figure-4-6.png[width=400]
+
+===== Steps
+. Login to your Azure Subscription using a user with the _Owner_ role.
+
+. Create a new Azure Storage Account using this command. This will be the source of our migration. Replace _{storage_account_name}_ with the desired globally-unique name:
++
+----
+
+RG_NAME="{resource-group-id}"
+STORAGE_NAME="{storage_account_name}"
+
+az storage account create \
+   --name $STORAGE_NAME \
+   --resource-group $RG_NAME \
+   --location eastus \
+   --sku Standard_LRS
+
+----
+
+. Save one of the Storage Account keys in a variable:
++
+----
+
+STORAGE_KEY_1=$(az storage account keys list \
+    --resource-group $RG_NAME \
+    --account-name $STORAGE_NAME \
+    --query [0].value \
+    --output tsv)
+
+----
+
+. Now, create a table in the above Azure Storage Account and name it _People_. Seed it with two data rows:
++ 
+----
+
+# creating a table
+az storage table create \
+  --account-name $STORAGE_NAME \
+  --account-key $STORAGE_KEY_1 \
+  --name People
+
+# inserting a new row
+az storage entity insert \
+  --account-name $STORAGE_NAME \
+  --account-key $STORAGE_KEY_1 \
+  --table-name People \
+  --entity PartitionKey=Canada RowKey=reza@contoso.com Name=Reza
+
+# inserting another new row
+az storage entity insert \
+  --account-name $STORAGE_NAME \
+  --account-key $STORAGE_KEY_1 \
+  --table-name People \
+  --entity PartitionKey=U.S.A. RowKey=john@contoso.com Name=John Last=Smith
+
+----
+
+. Use the following command to confirm two rows are inserted as expected:
++
+----
+
+az storage entity query \
+  --table-name People \
+  --account-name $STORAGE_NAME \
+  --account-key $STORAGE_KEY_1 
+
+----
+
+. Store the Azure Storage Table (migration source) connection string in a variable for later use:
++
+----
+
+STORAGE_CONNECTION=$(az storage account show-connection-string \
+  --resource-group $RG_NAME \
+  --name $STORAGE_NAME \  
+  -o tsv)
+
+---- 
+
+. Create a new _Azure Cosmos DB Table API_ account. You will migrate your Azure Storage Table data to this account. Replace the _{resource-group-id}_ and _{cosmosdb-name}_ placeholders with the desired resource group, and Cosmos DB account names.
++
+----
+
+COSMOS_NAME="{cosmosdb-name}"
+
+az cosmosdb create \
+  --name $COSMOS_NAME \
+  --resource-group $RG_NAME \
+  --capabilities EnableTable 
+
+----
+
+. You will use _Data Migration Tool for Cosmos DB_ to migrate your Azure Storage Table data to Azure Cosmos DB. At the time of writing this book, the Data Migration Tool is only available for _Microsoft Windows_. See Cosmos DB documentation for other migration options (https://learn.microsoft.com/en-us/azure/cosmos-db/cosmosdb-migrationchoices). Download and install the executable from Microsoft website (https://github.com/Azure/azure-documentdb-datamigrationtool/releases/tag/1.8.3). Check the prerequisites section to make sure this tool can be installed properly (https://learn.microsoft.com/en-us/azure/cosmos-db/import-data#Prerequisites).
++
+[NOTE]
+====
+
+Make sure the path to the Data Migration Tool is added to Windows Path environment variable.
+
+====
+
+. You need the Cosmos DB endpoint and account key. Store them in variables using the following commands:
++
+----
+
+COSMOS_KEY_1=$(az cosmosdb keys list \
+  --name $COSMOS_NAME \
+  --resource-group $RG_NAME \
+  --query primaryMasterKey \
+  -o tsv)
+
+COSMOS_TABLE_ENDPOINT=$(az cosmosdb show \
+  --name $COSMOS_NAME \
+  --resource-group $RG_NAME \
+  --query documentEndpoint \
+  -o tsv)
+
+----
+
+. Now we are ready to run the migration tool. This migration tool offers both GUI (dtui.exe) and the command line tool (dt.exe). In this recipe we will use the command line tool to migrate the _People_ table to an Azure Cosmos DB collection (container) with the same name. Run the following commands in Bash to get the final command text. Copy it to your clipboard and run it in the _Windows command Prompt (CMD)_ as illustrated in Figure 4.7.
++
+----
+
+MIGRATION_COMMAND="dt.exe \
+/s:AzureTable \
+/s.ConnectionString:\""$STORAGE_CONNECTION"\" \
+/s.Table:People \
+/t:TableAPIBulk \
+/t.ConnectionString:\" AccountEndpoint="$COSMOS_TABLE_ENDPOINT" \
+;AccountKey="$COSMOS_KEY_1";Database=db01;\" \
+/t.TableName:People \
+/t.CollectionThroughput:1000"
+
+echo $MIGRATION_COMMAND
+
+---- 
+
+[[figure-4-7]]
+.Migrating Data to Azure Cosmos DB Using the dt.exe tool
+image::images/figure-4-7.png[width=400]
+
+In this recipe you migrated the Azure Storage Table data to Azure Cosmos DB. Wait for the command to succeed. You can use Cosmos DB SDKs, REST APIs or Cosmos DB Data Explorer in the Azure portal to see the migrated data (https://learn.microsoft.com/en-us/azure/cosmos-db/data-explorer).
+
+==== Discussion
+You can migrate data from multiple sources to Azure Cosmos DB, including the following scenarios:
+
+- Migrating Azure Storage Table data to Azure Cosmos DB Table API
+- Migrating Mongo DB data to Azure Cosmos DB MongoDB API
+- Moving unstructured data such as JSON files in a Azure Blobs to Azure Cosmos DB SQL API
+
+Depending on the size and nature of your data migration, Microsoft recommends different solutions including _Data Migration Tool_, _Azure Data Factory_, custom migrations, and the _Spark Connector_. See Azure Cosmos DB documentation for details on the migration options you have (https://learn.microsoft.com/en-us/azure/cosmos-db/cosmosdb-migrationchoices).
+
+In this recipe, you used Cosmos DB Data Migration Tool which is easy to setup and is recommended for small to medium sized migrations. See the Data Migration Tool documentation for details (https://learn.microsoft.com/en-us/azure/cosmos-db/import-data).

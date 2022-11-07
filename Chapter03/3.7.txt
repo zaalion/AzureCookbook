@@ -1,0 +1,11 @@
+RG_NAME="rg-snap"
+STORAGE_NAME="tierasasasasasa"
+
+az storage account create --name $STORAGE_NAME --access-tier Hot --resource-group $RG_NAME --location eastus --sku Standard_LRS --default-action Allow
+
+
+az storage account management-policy create \
+    --resource-group $RG_NAME \
+    --account-name $STORAGE_NAME \
+    --policy C:/Data/Repo/AzureCookbook/Chapter03/3.7-ACCESS_POLICY.JSON
+

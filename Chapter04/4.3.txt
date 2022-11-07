@@ -1,0 +1,40 @@
+RG_NAME="rg-ch04"
+COSMOS_NAME="cosmosortest2005"
+
+az cosmosdb create --name $COSMOS_NAME --resource-group $RG_NAME
+
+
+IP_RANGE_TO_ALLOW="99.247.107.13"
+
+az cosmosdb update --resource-group $RG_NAME --name $COSMOS_NAME --ip-range-filter $IP_RANGE_TO_ALLOW
+
+
+VNET_NAME="cosmoscvlientvnet01"
+
+az network vnet create --resource-group $RG_NAME --name $VNET_NAME --address-prefix 10.0.0.0/16 --subnet-name Subnet01 --subnet-prefix 10.0.0.0/26
+
+az network vnet subnet update --resource-group $RG_NAME --name Subnet01 --vnet-name $VNET_NAME --service-endpoints Microsoft.AzureCosmosDB
+
+az cosmosdb update --resource-group $RG_NAME --name $COSMOS_NAME --enable-virtual-network true --debug
+
+az cosmosdb network-rule add --resource-group $RG_NAME --virtual-network $VNET_NAME --subnet Subnet01 --name $COSMOS_NAME
+
+do not have ServiceEndpoints for Microsoft.AzureCosmosDB 
+
+
+az cosmosdb network-rule list
+  --name $COSMOS_NAME \
+  --resource-group $RG_NAME
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+rgName="ch05-rg"
+namespaceName="orcookdemo01ns"
+
+az servicebus namespace create --resource-group $rgName --name $namespaceName --sku Standard
+
+
+az servicebus topic create --resource-group $rgName --namespace-name $namespaceName --name notificationsTopic   
+
+
+
+az servicebus topic subscription create --resource-group $rgName --namespace-name $namespaceName --topic-name notificationsTopic --name subscription01
+
+
+az servicebus topic subscription create --resource-group $rgName --namespace-name $namespaceName --topic-name notificationsTopic --name subscription02
+

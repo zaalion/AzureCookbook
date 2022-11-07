@@ -1,0 +1,27 @@
+# az eventgrid system-topic create
+# az eventgrid system-topic event-subscription create
+
+rgName="ch05-rg"
+storageName="cookgridstorage01"
+containerName="mycontainer"
+
+topicName="cooktopic2551"
+
+az storage account create --name $storageName --resource-group $rgName --sku Standard_LRS --kind StorageV2
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageName --query [0].value --output tsv)
+
+az storage queue create --name ordersqueue --account-name $storageName --account-key $storageKey
+
+az storage container create --name $containerName --account-name $storageName --account-key $storageKey
+
+storageResId=$(az storage account show --name $storageName --resource-group $rgName --query id -o tsv)
+
+storageQueueId="$storageResId/queueservices/default/queues/ordersqueue"
+
+MSYS_NO_PATHCONV=1 az eventgrid system-topic create -g $rgName --name $topicName --topic-type microsoft.storage.storageaccounts --source $storageResId --location canadacentral
+
+MSYS_NO_PATHCONV=1 az eventgrid system-topic event-subscription create -n es1 -g $rgName --system-topic-name $topicName --endpoint-type storagequeue --endpoint $storageQueueId
+
+
+

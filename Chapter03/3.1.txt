@@ -1,0 +1,33 @@
+RG_NAME="ch03-rg"
+KV_NAME="mystoragekv223"
+
+az keyvault create --name $KV_NAME --resource-group $RG_NAME --location eastus --enabled-for-disk-encryption
+
+az keyvault key create \
+    --name storage_cmk_key 
+    --vault-name $KV_NAME
+    --kty RSA
+    --size 4096  
+
+STORAGE_NAME="{storage_account_name}"
+
+az storage account create --name {storage_account_name} \
+   --resource-group $RG_NAME --location eastus \
+   --sku Standard_LRS --allow-blob-public-access false
+
+STORAGE_IDENTITY_OBJECTID=$(az storage account show \
+    --name $STORAGE_NAME -o tsv --query "id")
+
+az keyvault set-policy --name $KV_NAME \
+    --object-id $STORAGE_IDENTITY_OBJECTID \
+    --key-permissions {wrapkey,unwrapkey,get}
+
+az storage account update \
+    --name $STORAGE_NAME \
+    --resource-group $RG_NAME \
+    --encryption-key-source Microsoft.Storage \
+    --encryption-services blob \
+    --encryption-key-vault $KV_NAME \
+    --encryption-key-name storage_cmk_key
+
+

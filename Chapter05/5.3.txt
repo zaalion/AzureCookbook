@@ -1,0 +1,14 @@
+rgName="ch05-rg"
+storageName="stororcookdemo01"
+
+az storage account create --name $storageName --resource-group $rgName --location eastus --sku Standard_LRS --kind StorageV2
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageName --query [0].value --output tsv)
+
+az storage queue create --name ordersqueue --account-name $storageName --account-key $storageKey
+
+az storage message put --queue-name ordersqueue --content '{"order": "1 small pizza"}' --account-name $storageName --account-key $storageKey
+
+az storage message put --queue-name ordersqueue --content '{"order": "2 large cheese pizzas"}' --account-name $storageName --account-key $storageKey
+
+az storage message get --queue-name ordersqueue --account-name $storageName --account-key $storageKey

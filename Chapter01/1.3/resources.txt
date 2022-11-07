@@ -1,0 +1,2 @@
+https://docs.microsoft.com/en-us/cli/azure/policy/assignment?view=azure-cli-latest#az-policy-assignment-delete
+https://docs.microsoft.com/en-us/cli/azure/policy/definition?view=azure-cli-latest#az-policy-definition-show

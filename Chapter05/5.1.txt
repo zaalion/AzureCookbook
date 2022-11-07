@@ -1,0 +1,17 @@
+
+rgName="ch05-rg"
+eventHubNamespaceName="orcookdemo01eh"
+
+az eventhubs namespace create --resource-group $rgName --name $eventHubNamespaceName --sku Standard --enable-auto-inflate --maximum-throughput-units 5
+
+az eventhubs eventhub create --resource-group $rgName --namespace-name $eventHubNamespaceName --name hub01 --message-retention 1 --partition-count 2
+
+nsKey01=$(az eventhubs namespace authorization-rule keys list --resource-group $rgName --namespace-name $eventHubNamespaceName --name RootManageSharedAccessKey --query primaryKey)
+
+MSYS_NO_PATHCONV=1 endpoint="https://$eventHubNamespaceName.servicebus.windows.net/hub01/messages"
+
+endpoint="https://$eventHubNamespaceName.servicebus.windows.net/hub01/messages"
+
+event='{"Name": "John Smith","Email": "john@contoso.com", "Type": "Create"}'
+
+curl -X POST -H "Authorization: SharedAccessSignature sr=$eventHubNamespaceName.servicebus.windows.net&sig=$nsKey01&se=1735693200&skn=RootManageSharedAccessKey" -d "$event" $endpoint --verbose

@@ -1,0 +1,23 @@
+RG_NAME="rg-ch04"
+COSMOS_NAME="myorcosmos2551"
+
+az cosmosdb create --name $COSMOS_NAME --resource-group $RG_NAME
+
+
+VNET_NAME="vnet02"
+
+az network vnet create --resource-group $RG_NAME --name $VNET_NAME --address-prefix 10.0.0.0/20 --subnet-name PLSubnet --subnet-prefix 10.0.0.0/26
+
+COSMOS_ID=$(az cosmosdb show --name $COSMOS_NAME --resource-group $RG_NAME --query id -o tsv)
+
+
+MSYS_NO_PATHCONV=1 az network private-endpoint create --name MyCosmosPrivateEndpoint --resource-group $RG_NAME --vnet-name $VNET_NAME --subnet PLSubnet --connection-name MyEndpointConnection --private-connection-resource-id $COSMOS_ID --group-id Sql
+
+az cosmosdb update --resource-group $RG_NAME --name $COSMOS_NAME --enable-public-network false
+
+
+
+
+
+
+

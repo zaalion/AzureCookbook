@@ -1,0 +1,31 @@
+STORAGE_CONNECTION
+COSMOS_KEY_1
+COSMOS_TABLE_ENDPOINT
+
+DefaultEndpointsProtocol=https;AccountName=storagemigrationor2551;AccountKey=rXrsFvmAxP6qFIFDGj7oeCyz5HmrMf8HtxWTUKoqoGIIToyuWVWJMEq0biOPepXyayH9XQQjpHvU+ASt39reuw==;EndpointSuffix=core.windows.net
+
+dt.exe /s:AzureTable /s.ConnectionString:"DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=storagemigrationor2551;AccountKey=rXrsFvmAxP6qFIFDGj7oeCyz5HmrMf8HtxWTUKoqoGIIToyuWVWJMEq0biOPepXyayH9XQQjpHvU+ASt39reuw==;BlobEndpoint=https://storagemigrationor2551.blob.core.windows.net/;FileEndpoint=https://storagemigrationor2551.file.core.windows.net/;QueueEndpoint=https://storagemigrationor2551.queue.core.windows.net/;TableEndpoint=https://storagemigrationor2551.table.core.windows.net/" /s.Table:People /s.Projection:PartitionKey;RowKey;Name /t:DocumentDBBulk /t.ConnectionString:" AccountEndpoint=https://cosmosmigration2551.documents.azure.com:443/;AccountKey=GOvyQqmsGSe2F2i0qLX7h6az6xVzMGRQpLlvGe29nRdpD2oHRJXG1qiaHMGR28YkS5FueLH7pmYGSpfqYqaybw==;Database=db01;" /t.Collection:People /t.CollectionThroughput:1000
+
+
+
+"dt.exe /s:AzureTable /s.ConnectionString:\""$STORAGE_CONNECTION"\" /s.Table:People /s.Projection:PartitionKey;RowKey;Name /t:DocumentDBBulk /t.ConnectionString:\" AccountEndpoint="$COSMOS_TABLE_ENDPOINT";AccountKey="$COSMOS_KEY_1";Database=db01;\" /t.Collection:People /t.CollectionThroughput:1000"
+
+
+
+
+dt.exe /s:AzureTable /s.ConnectionString:"DefaultEndpointsProtocol=https;AccountName=<Account Name>;AccountKey=<Account Key>" /s.Table:metrics /s.InternalFields:All /s.Filter:"PartitionKey eq 'Partition1' and RowKey gt '00001'" /s.Projection:ObjectCount;ObjectSize  /t:DocumentDBBulk /t.ConnectionString:" AccountEndpoint=<CosmosDB Endpoint>;AccountKey=<CosmosDB Key>;Database=<CosmosDB Database>;" /t.Collection:metrics /t.CollectionThroughput:2500
+
+
+/s:AzureTable /s.ConnectionString:DefaultEndpointsProtocol=https;AccountName=storagemigrationor2551;AccountKey=rXrsFvmAxP6qFIFDGj7oeCyz5HmrMf8HtxWTUKoqoGIIToyuWVWJMEq0biOPepXyayH9XQQjpHvU+ASt39reuw==;EndpointSuffix=core.windows.net /s.Table:People /t:DocumentDBBulk /t.ConnectionString:AccountEndpoint=https://cosmosmigration2551.documents.azure.com:443/;AccountKey=GOvyQqmsGSe2F2i0qLX7h6az6xVzMGRQpLlvGe29nRdpD2oHRJXG1qiaHMGR28YkS5FueLH7pmYGSpfqYqaybw==;Database=db01; /t.IdField:Name /t.Collection:People /t.PartitionKey:Name
+
+
+
+
+
+
+
+
+
+
+
+
