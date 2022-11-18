@@ -1,0 +1,1 @@
+bash C:/Data/Repo/AzureCookbook/Chapter06/6.1/test.sh
