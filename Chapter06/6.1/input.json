@@ -1,0 +1,9 @@
+{
+    "type": "Microsoft.ServiceBus/EventHub",
+    "properties": {
+        "eventHubName": "inputHub",
+        "serviceBusNamespace": "ch06ehnsnamespace",
+        "sharedAccessPolicyKey": "27FwLs3MJpsOK9NzTjpfq+P7+uzgd4k+xzL0ufAX+1Y=",
+        "sharedAccessPolicyName": "RootManageSharedAccessKey"
+    }
+}

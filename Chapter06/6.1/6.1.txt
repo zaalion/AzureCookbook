@@ -1,0 +1,31 @@
+rgName="ch06-rg"
+eventHubNamespaceName="ch06ehnsnamespace"
+
+az eventhubs namespace create --resource-group $rgName --name $eventHubNamespaceName --sku Standard --enable-auto-inflate --maximum-throughput-units 5
+
+az eventhubs eventhub create --resource-group $rgName --namespace-name $eventHubNamespaceName --name inputHub --message-retention 1 --partition-count 2
+
+eventHubprimaryConnectionString=$(az eventhubs namespace authorization-rule keys list --resource-group $rgName --namespace-name $eventHubNamespaceName --name RootManageSharedAccessKey --query primaryConnectionString)
+
+storageAccountName="ch0601cookstorage"
+
+az storage account create --name $storageAccountName --resource-group $rgName --sku Standard_LRS
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageAccountName --query [0].value --output tsv)
+
+az storage container create --name "outputcontainer" --account-name $storageAccountName --account-key $storageKey
+
+streamJobName="myTemperatureJob"
+
+az stream-analytics job create --resource-group $rgName --name $streamJobName --output-error-policy "Drop" --out-of-order-policy "Drop" --data-locale "en-US"
+
+az stream-analytics input create --input-name "temperatureInput" --job-name $streamJobName --resource-group "$rgName" --properties c:/data/inputProperties.json
+
+az stream-analytics output create --resource-group $rgName --job-name $streamJobName --name temperatureOutput --datasource c:/data/outputProperties.json --serialization c:/data/encoding.json
+
+az stream-analytics transformation create --resource-group $rgName --job-name $streamJobName --name AnomalyDetection --streaming-units "1" --saql "SELECT * INTO temperatureOutput FROM temperatureInput WHERE Temperature > 100"
+
+az stream-analytics job start --resource-group $rgName --job-name $streamJobName --output-start-mode JobStartTime
+
+bash c:/data/sendMessages.sh $eventHubNamespaceName $nsKey01 100
+#https://learn.microsoft.com/en-us/rest/api/eventhub/event-hubs-runtime-rest
