@@ -1,0 +1,30 @@
+storageAccountName="syncookdl01"
+
+rgName="ch06-rg"
+
+az storage account create --name $storageAccountName --resource-group $rgName --sku Standard_LRS --enable-hierarchical-namespace true
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageAccountName --query [0].value --output tsv)
+
+az storage container create --name "rawdata" --account-name $storageAccountName --account-key $storageKey
+
+
+az storage blob upload --account-key $storageKey --file "cars.csv" --account-name $storageAccountName --container-name "rawdata" --name "cars.csv"
+
+#https://learn.microsoft.com/en-us/azure/synapse-analytics/quickstart-create-workspace-cli
+
+synapseWorkspaceName="6_2cooksynapse01"
+sqlUser="rezaadmin"
+sqlPassword="Sddsds12151_x"
+
+az synapse workspace create --name $synapseWorkspaceName --resource-group $rgName --storage-account $storageAccountName --file-system "rawdata" --sql-admin-login-user $sqlUser --sql-admin-login-password $sqlPassword
+
+workspaceURL=$(az synapse workspace show --name $synapseWorkspaceName --resource-group $rgName | jq -r '.connectivityEndpoints | .web')
+
+clientIP="[use your public IP V4 address here]"
+
+az synapse workspace firewall-rule create --end-ip-address $clientIP --start-ip-address $clientIP --name "Allowing My IP" --resource-group $rgName --workspace-name $synapseWorkspaceName
+
+echo $workspaceURL
+
+
