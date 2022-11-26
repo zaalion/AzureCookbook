@@ -1,0 +1,21 @@
+dedicatedSQLPoolName="sqlpool01"
+synapseWorkspaceName="cookbookch06synapse"
+rgName="ch06-rg"
+
+az synapse sql pool create --name $dedicatedSQLPoolName --performance-level "DW1000c" --workspace-name $synapseWorkspaceName --resource-group $rgName --collation "SQL_Latin1_General_CP1_CS_AS"
+
+az synapse sql pool show --name $dedicatedSQLPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName --query status
+
+az synapse sql pool pause --name $dedicatedSQLPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName
+
+az synapse sql pool resume --name $dedicatedSQLPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName
+
+az synapse sql pool delete --name $dedicatedSQLPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName
+
+sparkPoolName="sparkpool01"
+
+az synapse spark pool create --name $sparkPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName --spark-version 2.4 --node-count 3 --node-size Small --enable-auto-pause true --delay 10
+
+az synapse spark pool show --name $sparkPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName --query autoPause
+
+az synapse spark pool delete --name $sparkPoolName --workspace-name $synapseWorkspaceName --resource-group $rgName
