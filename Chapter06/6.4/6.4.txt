@@ -1,0 +1,23 @@
+rgName="ch06-rg"
+storageAccountName="cookbookdatalake02"
+
+az storage account create --name $storageAccountName --resource-group $rgName --sku Standard_LRS --enable-hierarchical-namespace true
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageAccountName --query [0].value --output tsv)
+
+az storage container create --name "bigdata" --account-name $storageAccountName --account-key $storageKey
+
+expiryDate=`date -u -d "120 minutes" '+%Y-%m-%dT%H:%MZ'`
+
+sasToken=$(az storage account generate-sas --account-name $storageAccountName --account-key $storageKey --expiry $expiryDate --permissions rwcul --resource-types sco --services b --https-only --output tsv)
+
+# se=2022-11-27T16%3A36Z&sp=rwlcu&spr=https&sv=2021-06-08&ss=b&srt=sco&sig=799ovAAhwV5yPQCvTluUhblij1Wh4KVD20KxBpfjHTI%3D
+echo $sasToken
+
+blobName="country_list.json"
+
+az storage blob upload --account-key $storageKey --file country_list.json --account-name $storageAccountName --container-name bigdata --name $blobName
+
+databricksWorkspaceName="cookdatabricksor02"
+
+az databricks workspace create --resource-group $rgName --name $databricksWorkspaceName --location eastus --sku standard
