@@ -1,0 +1,6 @@
+{
+    "type": "AzureBlobStorage",
+    "typeProperties": {
+        "connectionString": "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=cookbookch06adfdemo;AccountKey=mnyhHwzXtIO81C0Ogko1xZh9kj2eaBQCQuEVqTbvBUJuBP31zsEF5irHh8tBJYKoPToP4QXlPXFU+AStd7L2Ew==;BlobEndpoint=https://cookbookch06adfdemo.blob.core.windows.net/;FileEndpoint=https://cookbookch06adfdemo.file.core.windows.net/;QueueEndpoint=https://cookbookch06adfdemo.queue.core.windows.net/;TableEndpoint=https://cookbookch06adfdemo.table.core.windows.net/"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "linkedServiceName": {
+        "referenceName": "SourceSinkStorageLinkedService",
+        "type": "LinkedServiceReference"
+    },
+    "annotations": [],
+    "type": "Binary",
+    "typeProperties": {
+        "location": {
+            "type": "AzureBlobStorageLocation",
+            "fileName": "country_list.csv",
+            "folderPath": "input",
+            "container": "datasink"
+        }
+    }
+}

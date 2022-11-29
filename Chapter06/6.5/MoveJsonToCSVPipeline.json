@@ -1,0 +1,83 @@
+{
+    "name": "JsonToCSVPipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "CopyFromJsonToCSV",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "JsonSource",
+                        "storeSettings": {
+                            "type": "AzureBlobStorageReadSettings",
+                            "recursive": true,
+                            "wildcardFileName": "country_list.json",
+                            "enablePartitionDiscovery": false
+                        },
+                        "formatSettings": { "type": "JsonReadSettings" }
+                    },
+                    "sink": {
+                        "type": "DelimitedTextSink",
+                        "storeSettings": { "type": "AzureBlobStorageWriteSettings" },
+                        "formatSettings": {
+                            "type": "DelimitedTextWriteSettings",
+                            "quoteAllText": true,
+                            "fileExtension": ".csv"
+                        }
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "mappings": [
+                            {
+                                "source": { "path": "$['name']" },
+                                "sink": {
+                                    "type": "String",
+                                    "ordinal": 1
+                                }
+                            },
+                            {
+                                "source": { "path": "$['capital']" },
+                                "sink": {
+                                    "type": "String",
+                                    "ordinal": 2
+                                }
+                            },
+                            {
+                                "source": { "path": "$['flag']" },
+                                "sink": {
+                                    "type": "String",
+                                    "ordinal": 3
+                                }
+                            }
+                        ]
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "SourceDataset",
+                        "type": "DatasetReference",
+                        "parameters": {}
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "SinkDataset",
+                        "type": "DatasetReference",
+                        "parameters": {}
+                    }
+                ]
+            }
+        ],
+        "annotations": []
+    }
+}
