@@ -1,16 +1,41 @@
 {
-    "linkedServiceName": {
-        "referenceName": "SourceSinkStorageLinkedService",
-        "type": "LinkedServiceReference"
-    },
-    "annotations": [],
-    "type": "Binary",
-    "typeProperties": {
-        "location": {
-            "type": "AzureBlobStorageLocation",
-            "fileName": "country_list.json",
-            "folderPath": "input",
-            "container": "datasource"
-        }
+  "linkedServiceName": {
+    "referenceName": "SourceSinkStorageLinkedService",
+    "type": "LinkedServiceReference"
+  },
+  "annotations": [],
+  "type": "Json",
+  "typeProperties": {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "fileName": "country_list.json",
+      "folderPath": "",
+      "container": "datasource"
     }
+  },
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "code": { "type": "string" },
+      "capital": { "type": "string" },
+      "region": { "type": "string" },
+      "currency": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" },
+          "symbol": { "type": "string" }
+        }
+      },
+      "language": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      },
+      "flag": { "type": "string" }
+    }
+  }
 }

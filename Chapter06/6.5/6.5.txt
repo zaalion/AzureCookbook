@@ -34,139 +34,21 @@ storageConnection=$(az storage account show-connection-string --resource-group $
 az datafactory linked-service create --resource-group $rgName --factory-name $adfName --linked-service-name SourceSinkStorageLinkedService --properties StorageLinkedService.json
 
 
-//InputDataset.json
-{
-    "linkedServiceName": {
-        "referenceName": "SourceSinkStorageLinkedService",
-        "type": "LinkedServiceReference"
-    },
-    "annotations": [],
-    "type": "Binary",
-    "typeProperties": {
-        "location": {
-            "type": "AzureBlobStorageLocation",
-            "fileName": "country_list.json",
-            "folderPath": "input",
-            "container": "datasource"
-        }
-    }
-}
+# Take InputDataset.json from https://github.com/zaalion/AzureCookbook/tree/main/Chapter06/6.5
 
 az datafactory dataset create --resource-group $rgName --dataset-name SourceDataset --factory-name $adfName --properties InputDataset.json
 
-//SinkDataSet.json
-{
-    "linkedServiceName": {
-        "referenceName": "SourceSinkStorageLinkedService",
-        "type": "LinkedServiceReference"
-    },
-    "annotations": [],
-    "type": "Binary",
-    "typeProperties": {
-        "location": {
-            "type": "AzureBlobStorageLocation",
-            "fileName": "country_list.csv",
-            "folderPath": "input",
-            "container": "datasink"
-        }
-    }
-}
-
+# Take SinkDataSet.json  from https://github.com/zaalion/AzureCookbook/tree/main/Chapter06/6.5
 
 az datafactory dataset create --resource-group $rgName --dataset-name SinkDataset --factory-name $adfName --properties SinkDataset.json
 
-
-//MoveJsonToCSVPipeline.json
-
-{
-    "name": "JsonToCSVPipeline",
-    "properties": {
-        "activities": [
-            {
-                "name": "CopyFromJsonToCSV",
-                "type": "Copy",
-                "dependsOn": [],
-                "policy": {
-                    "timeout": "0.12:00:00",
-                    "retry": 0,
-                    "retryIntervalInSeconds": 30,
-                    "secureOutput": false,
-                    "secureInput": false
-                },
-                "userProperties": [],
-                "typeProperties": {
-                    "source": {
-                        "type": "JsonSource",
-                        "storeSettings": {
-                            "type": "AzureBlobStorageReadSettings",
-                            "recursive": true,
-                            "wildcardFileName": "country_list.json",
-                            "enablePartitionDiscovery": false
-                        },
-                        "formatSettings": { "type": "JsonReadSettings" }
-                    },
-                    "sink": {
-                        "type": "DelimitedTextSink",
-                        "storeSettings": { "type": "AzureBlobStorageWriteSettings" },
-                        "formatSettings": {
-                            "type": "DelimitedTextWriteSettings",
-                            "quoteAllText": true,
-                            "fileExtension": ".csv"
-                        }
-                    },
-                    "enableStaging": false,
-                    "translator": {
-                        "type": "TabularTranslator",
-                        "mappings": [
-                            {
-                                "source": { "path": "$['name']" },
-                                "sink": {
-                                    "type": "String",
-                                    "ordinal": 1
-                                }
-                            },
-                            {
-                                "source": { "path": "$['capital']" },
-                                "sink": {
-                                    "type": "String",
-                                    "ordinal": 2
-                                }
-                            },
-                            {
-                                "source": { "path": "$['flag']" },
-                                "sink": {
-                                    "type": "String",
-                                    "ordinal": 3
-                                }
-                            }
-                        ]
-                    }
-                },
-                "inputs": [
-                    {
-                        "referenceName": "SourceDataset",
-                        "type": "DatasetReference",
-                        "parameters": {}
-                    }
-                ],
-                "outputs": [
-                    {
-                        "referenceName": "SinkDataset",
-                        "type": "DatasetReference",
-                        "parameters": {}
-                    }
-                ]
-            }
-        ],
-        "annotations": []
-    }
-}
+# Take MoveJsonToCSVPipeline.json from https://github.com/zaalion/AzureCookbook/tree/main/Chapter06/6.5
 
 az datafactory pipeline create --resource-group $rgName --factory-name $adfName --name CopyFromJsonToCSVPipeline --pipeline MoveJsonToCSVPipeline.json
 
 runID=$(az datafactory pipeline create-run --resource-group $rgName --factory-name $adfName --name CopyFromJsonToCSVPipeline --output tsv)
 
-az datafactory pipeline-run show --resource-group $rgName --factory-name $adfName --run-id $runID
+az datafactory pipeline-run show --resource-group $rgName --factory-name $adfName --run-id $runID --query status
 
 az storage blob list --account-name $storageAccountName --account-key $storageKey --container-name "datasink" --query [].name
 

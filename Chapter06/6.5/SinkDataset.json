@@ -1,16 +1,19 @@
 {
-    "linkedServiceName": {
-        "referenceName": "SourceSinkStorageLinkedService",
-        "type": "LinkedServiceReference"
+  "linkedServiceName": {
+    "referenceName": "SourceSinkStorageLinkedService",
+    "type": "LinkedServiceReference"
+  },
+  "annotations": [],
+  "type": "DelimitedText",
+  "typeProperties": {
+    "location": {
+      "type": "AzureBlobStorageLocation",
+      "fileName": "country_list.csv",
+      "folderPath": "",
+      "container": "datasink"
     },
-    "annotations": [],
-    "type": "Binary",
-    "typeProperties": {
-        "location": {
-            "type": "AzureBlobStorageLocation",
-            "fileName": "country_list.csv",
-            "folderPath": "input",
-            "container": "datasink"
-        }
-    }
+    "columnDelimiter": ",",
+    "escapeChar": "\\",
+    "quoteChar": "\""
+  }
 }
