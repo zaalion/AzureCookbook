@@ -1,0 +1,18 @@
+#r "Newtonsoft.Json"
+
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+
+public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
+{
+    log.LogInformation("C# HTTP trigger function processed a request.");
+
+    int num01 = int.Parse(req.Query["num01"]);
+    int num02 = int.Parse(req.Query["num02"]);
+
+    int addition = num01 + num02;
+
+    return new OkObjectResult(addition);
+}
