@@ -1,0 +1,15 @@
+rgName="ch07-rg"
+functionAppName="cookbookch07FuncApp"
+storageAccountName="blobtriggercookdemo01"
+
+az storage account create --name $storageAccountName --resource-group $rgName --sku Standard_LRS
+
+storageKey=$(az storage account keys list --resource-group $rgName --account-name $storageAccountName --query [0].value --output tsv)
+
+az storage container create --name "newblobs" --account-name $storageAccountName --account-key $storageKey
+
+storageConnectionString=$(az storage account show-connection-string --resource-group $rgName --name $storageAccountName --output tsv)
+
+az functionapp config appsettings set --name $functionAppName --resource-group $rgName --settings "StorageToMonitor=$storageConnectionString"
+
+az storage blob upload --account-key $storageKey --file testfile.txt --account-name $storageAccountName --container-name "newblobs" --name testfile.txt
