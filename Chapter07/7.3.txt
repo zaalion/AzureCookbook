@@ -1,5 +1,7 @@
 rgName="ch07-rg"
+
 functionAppName="cookbookch07FuncApp"
+
 storageAccountName="blobtriggercookdemo01"
 
 az storage account create --name $storageAccountName --resource-group $rgName --sku Standard_LRS
