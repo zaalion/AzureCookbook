@@ -1,0 +1,12 @@
+public static void Run(Stream myBlob, string name
+    , out object outputCosmos, ILogger log)
+{
+    log.LogInformation
+        ($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
+
+    outputCosmos = new
+    {
+        name,
+        myBlob.Length
+    };
+}

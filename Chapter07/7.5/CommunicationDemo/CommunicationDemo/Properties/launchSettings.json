@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "CommunicationDemo": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7120",
+      "launchBrowser": false
+    }
+  }
+}
