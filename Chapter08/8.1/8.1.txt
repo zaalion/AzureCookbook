@@ -4,15 +4,15 @@ planName="ch08cookbook-plan"
 az appservice plan create --resource-group $rgName --name $planName --number-of-workers 2 --sku S1
 
 
-appServiceName="ch08cookzipdeploy-app"
+appServiceName="ch08cookzipdeploy01-app"
 
 az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "dotnet:6"
 
 
-az webapp deployment source config-zip --resource-group $rgName --name $appServiceName --src "zipdeployPackage.zip"
+az webapp deployment source config-zip --resource-group $rgName --name $appServiceName --src "wwwroot.zip"
 
 
-az webapp show \
-  --resource-group $rgName \
-  --name $appServiceName
+url="https://"$(az webapp show --resource-group $rgName --name $appServiceName --query defaultHostName -o tsv)
+
+https://ch08cookzipdeploy01-app.azurewebsites.net
 

@@ -1,0 +1,26 @@
+rgName="ch08-rg"
+planName="ch08cookbook-plan"
+
+az appservice plan create --resource-group $rgName --name $planName --is-linux --number-of-workers 2 --sku S1
+
+
+appServiceName="ch08cookzipdeploy01-app"
+
+az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "dotnet:6"
+
+
+az webapp deployment source config-zip --resource-group $rgName --name $appServiceName --src "wwwroot.zip"
+
+
+url="https://"$(az webapp show --resource-group $rgName --name $appServiceName --query defaultHostName -o tsv)
+
+ftpDetails=($(az webapp deployment list-publishing-profiles --name $appServiceName --resource-group $rgName --query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" -o tsv))
+
+
+curl -T index.html -u ${ftpDetails[1]}:${ftpDetails[2]} ${ftpDetails[0]}/
+
+
+url="https://"$(az webapp show --resource-group $rgName --name $appServiceName --query defaultHostName -o tsv)
+
+echo $url
+
