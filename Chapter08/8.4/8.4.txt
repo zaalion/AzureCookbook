@@ -1,0 +1,30 @@
+rgName="ch08-rg"
+planName="ch08linux-plan"
+
+az appservice plan create --resource-group $rgName --name $planName --is-linux --number-of-workers 2 --sku S1
+
+appServiceName="ch08autoscale-app"
+
+az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "PHP:8.0"
+
+
+
+appPlanId=$(az appservice plan show --name $planName --resource-group $rgName --query id -o tsv)
+
+
+az monitor autoscale create --resource-group $rgName --name MyAutoScale --resource $appPlanId --min-count 1 --max-count 4 --count 2
+
+
+az monitor autoscale rule create --resource-group $rgName --autoscale-name MyAutoScale --scale out 1 --condition "CpuPercentage > 60 avg 10m" --cooldown 7
+
+az monitor autoscale rule create \
+  --resource-group $resource \
+  --autoscale-name MyAutoScale \
+  --scale out 1 \
+  --condition "Percentage CPU < 30 avg 5m" 
+
+
+az monitor autoscale rule list \
+  --resource-group $rgName
+
+

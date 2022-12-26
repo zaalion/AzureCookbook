@@ -3,18 +3,17 @@ planName="ch08cooklinux-plan"
 
 az appservice plan create --resource-group $rgName --name $planName --is-linux --number-of-workers 2 --sku S1
 
-
-appServiceName="ch08cookftp-app"
+appServiceName="ch08cookgit-app"
 
 az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "PHP:8.0"
 
-ftpDetails=($(az webapp deployment list-publishing-profiles --name $appServiceName --resource-group $rgName --query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" -o tsv))
+az webapp deployment source config --branch master --manual-integration --name $appServiceName --repo-url https://github.com/Azure-Samples/php-docs-hello-world --resource-group $rgName
 
-
-curl -T index.php -u ${ftpDetails[1]}:${ftpDetails[2]} ${ftpDetails[0]}/
-
+# az webapp deployment source sync --resource-group $rgName --name $appServiceName
 
 url="https://"$(az webapp show --resource-group $rgName --name $appServiceName --query defaultHostName -o tsv)"/index.php"
 
 echo $url
+
+
 

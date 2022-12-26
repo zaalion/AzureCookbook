@@ -1,0 +1,48 @@
+[
+  {
+    "index": 0,
+    "metricTrigger": {
+      "dimensions": [],
+      "dividePerInstance": false,
+      "metricName": "CpuPercentage",
+      "metricNamespace": "",
+      "metricResourceLocation": null,
+      "metricResourceUri": "/subscriptions/19969c81-e8ff-4585-8c2f-3f196b588227/resourceGroups/ch08-rg/providers/Microsoft.Web/serverfarms/ch08linux-plan",
+      "operator": "GreaterThan",
+      "statistic": "Average",
+      "threshold": 60.0,
+      "timeAggregation": "Average",
+      "timeGrain": "0:01:00",
+      "timeWindow": "0:10:00"
+    },
+    "scaleAction": {
+      "cooldown": "0:07:00",
+      "direction": "Increase",
+      "type": "ChangeCount",
+      "value": "1"
+    }
+  },
+  {
+    "index": 1,
+    "metricTrigger": {
+      "dimensions": [],
+      "dividePerInstance": false,
+      "metricName": "CpuPercentage",
+      "metricNamespace": "",
+      "metricResourceLocation": null,
+      "metricResourceUri": "/subscriptions/19969c81-e8ff-4585-8c2f-3f196b588227/resourceGroups/ch08-rg/providers/Microsoft.Web/serverfarms/ch08linux-plan",
+      "operator": "LessThan",
+      "statistic": "Average",
+      "threshold": 30.0,
+      "timeAggregation": "Average",
+      "timeGrain": "0:01:00",
+      "timeWindow": "0:05:00"
+    },
+    "scaleAction": {
+      "cooldown": "0:05:00",
+      "direction": "Increase",
+      "type": "ChangeCount",
+      "value": "1"
+    }
+  }
+]
