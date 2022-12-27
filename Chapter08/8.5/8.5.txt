@@ -20,5 +20,13 @@ az network vnet create --resource-group $rgName --name $vnetName --address-prefi
 
 az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name vNetClients --action Allow --vnet-name $vnetName --subnet Subnet01 --priority 100
 
+myPublicIPv4="99.247.107.13"
+
+az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name myself --action Allow --ip-address $myPublicIPv4 --priority 110
+
+az webapp config access-restriction show --resource-group $rgName --name $appServiceName
+
+
+
 
 
