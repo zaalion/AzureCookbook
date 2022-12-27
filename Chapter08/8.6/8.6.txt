@@ -1,0 +1,32 @@
+rgName="ch08-rg"
+planName="ch08linux-plan"
+appServiceName="ch08autoscale-app"
+
+az appservice plan create --resource-group $rgName --name $planName --is-linux --number-of-workers 2 --sku S1
+
+az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "PHP:8.0"
+
+url="https://"$(az webapp show \
+  --resource-group $rgName \
+  --name $appServiceName \
+  --query defaultHostName \
+  -o tsv)
+
+echo $url
+
+vnetName="webclient-vnet"
+
+az network vnet create --resource-group $rgName --name $vnetName --address-prefix 10.0.0.0/16 --subnet-name Subnet01 --subnet-prefix 10.0.0.0/26
+
+az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name vNetClients --action Allow --vnet-name $vnetName --subnet Subnet01 --priority 100
+
+myPublicIPv4="99.247.107.13"
+
+az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name myself --action Allow --ip-address $myPublicIPv4 --priority 110
+
+az webapp config access-restriction show --resource-group $rgName --name $appServiceName
+
+
+
+
+
