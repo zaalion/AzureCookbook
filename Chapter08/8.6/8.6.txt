@@ -1,32 +1,21 @@
-rgName="ch08-rg"
-planName="ch08linux-plan"
-appServiceName="ch08autoscale-app"
+rgName="{resource-group-id}"
+storageName="{storage_account_name}"
 
-az appservice plan create --resource-group $rgName --name $planName --is-linux --number-of-workers 2 --sku S1
+az storage account create \
+    --name $storageName \
+    --resource-group $rgName \
+    --sku Standard_LRS \
+    --default-action Allow
 
-az webapp create --resource-group $rgName --plan $planName --name $appServiceName --runtime "PHP:8.0"
+storageKey01=$(az storage account keys list \
+    --resource-group $rgName \
+    --account-name $storageName \
+    --query [0].value \
+    --output tsv)
 
-url="https://"$(az webapp show \
-  --resource-group $rgName \
-  --name $appServiceName \
-  --query defaultHostName \
-  -o tsv)
+containerName="mywebsite"
 
-echo $url
-
-vnetName="webclient-vnet"
-
-az network vnet create --resource-group $rgName --name $vnetName --address-prefix 10.0.0.0/16 --subnet-name Subnet01 --subnet-prefix 10.0.0.0/26
-
-az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name vNetClients --action Allow --vnet-name $vnetName --subnet Subnet01 --priority 100
-
-myPublicIPv4="99.247.107.13"
-
-az webapp config access-restriction add --resource-group $rgName --name $appServiceName --rule-name myself --action Allow --ip-address $myPublicIPv4 --priority 110
-
-az webapp config access-restriction show --resource-group $rgName --name $appServiceName
-
-
-
-
-
+az storage container create \
+    --name $containerName \
+    --account-name $storageName \
+    --account-key $storageKey01
