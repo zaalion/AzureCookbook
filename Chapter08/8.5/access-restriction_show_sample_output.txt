@@ -1,0 +1,63 @@
+{
+  "ipSecurityRestrictions": [
+    {
+      "action": "Allow",
+      "additional_properties": {},
+      "description": null,
+      "headers": null,
+      "ip_address": null,
+      "name": "vNetClients",
+      "priority": 100,
+      "subnet_mask": null,
+      "subnet_traffic_tag": null,
+      "tag": "Default",
+      "vnet_subnet_resource_id": "/subscriptions/19969c81-e8ff-4585-8c2f-3f196b588227/resourceGroups/ch08-rg/providers/Microsoft.Network/virtualNetworks/webclient-vnet/subnets/Subnet01",
+      "vnet_traffic_tag": null
+    },
+    {
+      "action": "Allow",
+      "additional_properties": {},
+      "description": null,
+      "headers": null,
+      "ip_address": "99.247.107.13/32",
+      "name": "myself",
+      "priority": 110,
+      "subnet_mask": null,
+      "subnet_traffic_tag": null,
+      "tag": "Default",
+      "vnet_subnet_resource_id": null,
+      "vnet_traffic_tag": null
+    },
+    {
+      "action": "Deny",
+      "additional_properties": {},
+      "description": "Deny all access",
+      "headers": null,
+      "ip_address": "Any",
+      "name": "Deny all",
+      "priority": 2147483647,
+      "subnet_mask": null,
+      "subnet_traffic_tag": null,
+      "tag": null,
+      "vnet_subnet_resource_id": null,
+      "vnet_traffic_tag": null
+    }
+  ],
+  "scmIpSecurityRestrictions": [
+    {
+      "action": "Allow",
+      "additional_properties": {},
+      "description": "Allow all access",
+      "headers": null,
+      "ip_address": "Any",
+      "name": "Allow all",
+      "priority": 2147483647,
+      "subnet_mask": null,
+      "subnet_traffic_tag": null,
+      "tag": null,
+      "vnet_subnet_resource_id": null,
+      "vnet_traffic_tag": null
+    }
+  ],
+  "scmIpSecurityRestrictionsUseMain": false
+}
