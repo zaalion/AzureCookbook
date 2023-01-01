@@ -1,0 +1,37 @@
+#C:\Data\Repo\AzureCookbook\Chapter09\ContainerDemoAPI
+
+#dotnet new webapi --name CookBookContainerAPI
+
+#dotnet build
+
+#dotnet run
+
+#dotnet publish -c Release
+
+docker build -t cookbookapi-image -f CookbookAPI/Dockerfile .
+
+#docker system prune -a
+
+docker images
+
+#docker container stop cookbookapi-container
+#docker container rm cookbookapi-container
+
+docker create --name cookbookapi-container cookbookapi-image
+
+docker run -d -p 5001:80 cookbookapi-image
+
+#docker scan ??
+
+#docker ps -a
+
+docker start cookbookapi-container
+
+docker tag 485e9c43149d cookbookstr2023acr.azurecr.io/cookbookapi01:version1.0
+
+docker login cookbookstr2023acr.azurecr.io --username cookbookstr2023acr --password NZSyE3LZeLlM1hfcF160jXLmCIOnjyiZzl2kd6cfy7+ACRDwToZ9
+
+docker push cookbookstr2023acr.azurecr.io/cookbookapi01:version1.0
+http://20.119.113.151/
+https://20.241.149.58/api/GetWeatherForecast
+http://20.241.149.58/swagger/index.html
