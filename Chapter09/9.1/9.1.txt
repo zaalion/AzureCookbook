@@ -1,0 +1,20 @@
+docker build -t static-html-image -f Dockerfile .
+
+# use the following command to run the container on your local machine
+#docker run -d -p 80:80 static-html-image
+
+docker images
+
+docker tag <IMAGE-ID> $acrLoginServer/static-html-image:ver1.0
+
+docker login cookbookacr.azurecr.io --username cookbookacr --password eJEpsVHpenocl4VNEaVGeexwbmMYA8/Vbne13h9j+F+ACRAZ3GuL
+
+docker push cookbookacr.azurecr.io/static-html:version1.0
+
+az acr repository list --resource-group cookch09-rg --name cookbookacr
+
+
+
+
+
+
