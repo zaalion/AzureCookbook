@@ -1,17 +1,25 @@
-docker build -t static-html-image -f Dockerfile .
+rgName="cookch09-rg"
+registryName="cookbookcliacr"
 
-# use the following command to run the container on your local machine
-#docker run -d -p 80:80 static-html-image
+docker build -t static-html-image -f Dockerfile .
 
 docker images
 
-docker tag <IMAGE-ID> $acrLoginServer/static-html-image:ver1.0
+az acr create --resource-group $rgName --name $registryName --sku Basic --admin-enabled true
 
-docker login cookbookacr.azurecr.io --username cookbookacr --password eJEpsVHpenocl4VNEaVGeexwbmMYA8/Vbne13h9j+F+ACRAZ3GuL
+acrLoginServer=$(az acr show --resource-group $rgName --name $registryName --query loginServer -o tsv)
 
-docker push cookbookacr.azurecr.io/static-html:version1.0
+acrAdminUser=$(az acr credential show --resource-group $rgName --name $registryName --query username -o tsv)
 
-az acr repository list --resource-group cookch09-rg --name cookbookacr
+acrAdminPass=$(az acr credential show --resource-group $rgName --name $registryName --query passwords[0].value -o tsv)
+
+docker tag dc89cef9b48b $acrLoginServer/static-html-image:ver1.0
+
+docker login $acrLoginServer --username $acrAdminUser --password $acrAdminPass
+
+docker push $acrLoginServer/static-html-image:ver1.0
+
+az acr repository list --name $registryName
 
 
 
