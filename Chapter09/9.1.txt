@@ -1,14 +1,18 @@
-docker build -t cookbooksite-image -f CookbookContainer/Dockerfile .
+docker build -t static-html-image -f Dockerfile .
+
+docker run -d -p 80:80 static-html-image
 
 docker images
 
-docker tag 8b1501d9adc7 cookbookacr.azurecr.io/cookbooksite:version1.0
+docker tag 0d71ad6e1349 cookbookacr.azurecr.io/static-html:version1.0
 
 docker login cookbookacr.azurecr.io --username cookbookacr --password eJEpsVHpenocl4VNEaVGeexwbmMYA8/Vbne13h9j+F+ACRAZ3GuL
 
-docker push cookbookacr.azurecr.io/cookbooksite:version1.0
+docker push cookbookacr.azurecr.io/static-html:version1.0
 
-https://4.236.213.35
-http://4.236.213.35
+http://20.241.130.163
+https://20.231.241.143
+
+
 
 
