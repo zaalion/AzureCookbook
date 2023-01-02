@@ -13,6 +13,18 @@ docker push cookbookacr.azurecr.io/static-html:version1.0
 http://20.241.130.163
 https://20.231.241.143
 
+http://20.231.241.143:443
+
+===============
+
+az container create -g cookch09-rg --name static-cli-aci --image cookbookacr.azurecr.io/static-html:version1.0 --cpu 2 --memory 2 --registry-username cookbookacr --registry-password "eJEpsVHpenocl4VNEaVGeexwbmMYA8/Vbne13h9j+F+ACRAZ3GuL" --ip-address Public --ports 80
+
+az container show --name static-cli-aci -g cookch09-rg --query ipAddress.ip
+
+http://20.241.148.190
+
+
+
 
 
 
