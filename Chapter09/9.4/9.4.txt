@@ -22,6 +22,10 @@ CONTAINER_IMAGE_NAME=$acrLoginServer"/static-html-image:ver1.0"
 
 az containerapp create --name my-container-app --resource-group $rgName --image $CONTAINER_IMAGE_NAME --environment $CONTAINERAPPS_ENVIRONMENT --registry-server $acrLoginServer --registry-username $acrAdminUser --registry-password $acrAdminPass
 
+az containerapp delete --resource-group $rgName --name my-container-app
+
+az containerapp env delete --name $CONTAINERAPPS_ENVIRONMENT --resource-group $rgName
+
 ###################
 https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-create
 [--ingress {external, internal}]
@@ -34,3 +38,4 @@ az containerapp create -n MyContainerapp -g MyResourceGroup \
     --ingress external --target-port 80 \
     --registry-server myregistry.azurecr.io --registry-username myregistry --registry-password $REGISTRY_PASSWORD \
     --query properties.configuration.ingress.fqdn
+
