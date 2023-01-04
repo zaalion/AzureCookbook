@@ -1,8 +1,22 @@
-az container create -g cookch09-rg --name static-cli-aci --image cookbookacr.azurecr.io/static-html:version1.0 --cpu 2 --memory 2 --registry-username cookbookacr --registry-password "eJEpsVHpenocl4VNEaVGeexwbmMYA8/Vbne13h9j+F+ACRAZ3GuL" --ip-address Public --ports 80
+rgName="cookch09-rg"
+registryName="cookbookcliacr"
+aciName="cookcook-aci"
 
-az container show --name static-cli-aci -g cookch09-rg --query ipAddress.ip
+acrLoginServer=$(az acr show --resource-group $rgName --name $registryName --query loginServer -o tsv)
 
-http://20.241.148.190
+acrAdminUser=$(az acr credential show --resource-group $rgName --name $registryName --query username -o tsv)
+
+acrAdminPass=$(az acr credential show --resource-group $rgName --name $registryName --query passwords[0].value -o tsv)
+
+az container create --resource-group $rgName --name $aciName --image $acrLoginServer/static-html-image:ver1.0 --cpu 2 --memory 2 --registry-username $acrAdminUser --registry-password $acrAdminPass --ip-address Public --ports 80 443
+
+aciIP=$(az container show --name $aciName --resource-group $rgName --query ipAddress.ip -o tsv)
+
+aciURL="http://"$aciIP"/index.html"
+
+echo $aciURL
+
+
 
 
 
