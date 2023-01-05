@@ -5,37 +5,30 @@ az provider register --namespace Microsoft.App
 az provider register --namespace Microsoft.OperationalInsights
 
 rgName="cookch09-rg"
-LOCATION="canadacentral"
-CONTAINERAPPS_ENVIRONMENT="my-environment"
+envName="my-environment"
 registryName="cookbookcliacr"
 
-az containerapp env create --name $CONTAINERAPPS_ENVIRONMENT --resource-group $rgName --location $LOCATION
-
-
 acrLoginServer=$(az acr show --resource-group $rgName --name $registryName --query loginServer -o tsv)
-
 acrAdminUser=$(az acr credential show --resource-group $rgName --name $registryName --query username -o tsv)
-
 acrAdminPass=$(az acr credential show --resource-group $rgName --name $registryName --query passwords[0].value -o tsv)
 
-CONTAINER_IMAGE_NAME=$acrLoginServer"/static-html-image:ver1.0"
+az containerapp env create --name $envName --resource-group $rgName 
 
-az containerapp create --name my-container-app --resource-group $rgName --image $CONTAINER_IMAGE_NAME --environment $CONTAINERAPPS_ENVIRONMENT --registry-server $acrLoginServer --registry-username $acrAdminUser --registry-password $acrAdminPass
+az containerapp create --name cookbook-container-app01 --resource-group $rgName --image $acrLoginServer"/static-html-image:ver1.0" --environment $envName --ingress external --target-port 80 --registry-server $acrLoginServer --registry-username $acrAdminUser --registry-password $acrAdminPass
 
-az containerapp delete --resource-group $rgName --name my-container-app
+appHost=$(az containerapp show --name cookbook-container-app01 --resource-group $rgName --query properties.configuration.ingress.fqdn --output tsv)
 
-az containerapp env delete --name $CONTAINERAPPS_ENVIRONMENT --resource-group $rgName
+appURL="http://"$appHost
 
-###################
-https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-create
-[--ingress {external, internal}]
-[--target-port]
+echo $appURL
+
+az containerapp env delete \
+  --name $envName \
+  --resource-group $rgName
+
+az containerapp delete \
+  --resource-group $rgName \
+  --name my-container-app
 
 
-
-az containerapp create -n MyContainerapp -g MyResourceGroup \
-    --image myregistry.azurecr.io/my-app:v1.0 --environment MyContainerappEnv \
-    --ingress external --target-port 80 \
-    --registry-server myregistry.azurecr.io --registry-username myregistry --registry-password $REGISTRY_PASSWORD \
-    --query properties.configuration.ingress.fqdn
-
+#https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-create
