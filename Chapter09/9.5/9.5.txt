@@ -1,0 +1,31 @@
+az acr update --name cookbookcliacr --resource-group cookch09-rg --sku Premium
+
+az acr update --name cookbookcliacr --resource-group cookch09-rg --public-network-enabled false
+
+az acr update --name cookbookcliacr --resource-group cookch09-rg --allow-trusted-services true
+
+az identity create --resource-group cookch09-rg --name myACI-Id
+
+# Get resource ID of the user-assigned identity
+userID=$(az identity show --resource-group cookch09-rg --name myACI-Id --query id --output tsv)
+
+# Get service principal ID of the user-assigned identity
+spID=$(az identity show --resource-group cookch09-rg --name myACI-Id --query principalId --output tsv)
+
+acrID=$(az acr show --name cookbookcliacr --resource-group cookch09-rg --query id -o tsv)
+
+az role assignment create --assignee $spID --scope $acrID --role acrpull
+
+aciName="cookbook-identity-aci"
+rgName="cookch09-rg"
+registryName="cookbookcliacr"
+
+az container create --name $aciName --resource-group cookch09-rg --image $acrLoginServer/static-html-image:ver1.0 --cpu 2 --memory 2 --acr-identity $userID --assign-identity $userID --ip-address Public --ports 80 443
+
+aciIP=$(az container show --name $aciName --resource-group $rgName --query ipAddress.ip -o tsv)
+
+aciURL="http://"$aciIP"/index.html"
+
+echo $aciURL
+//http://20.253.9.217/index.html
+

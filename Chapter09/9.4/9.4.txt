@@ -22,13 +22,9 @@ appURL="http://"$appHost
 
 echo $appURL
 
-az containerapp env delete \
-  --name $envName \
-  --resource-group $rgName
+az containerapp delete --resource-group $rgName --name cookbook-container-app01
 
-az containerapp delete \
-  --resource-group $rgName \
-  --name my-container-app
+az containerapp env delete --name $envName --resource-group $rgName
 
 
 #https://learn.microsoft.com/en-us/cli/azure/containerapp?view=azure-cli-latest#az-containerapp-create
