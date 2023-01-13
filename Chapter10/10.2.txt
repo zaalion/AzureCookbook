@@ -1,0 +1,25 @@
+serviceName="multi-purpose"
+rgName="ch10"
+location="eastus"
+
+az cognitiveservices account show --name $serviceName --resource-group $rgName --query properties.endpoint
+
+#"https://eastus.api.cognitive.microsoft.com/" 
+
+key1=$(az cognitiveservices account keys list --name $serviceName --resource-group $rgName --query key1 --output tsv)
+
+# 8e2d65e466084da2a95835d95d0c52e7
+
+# https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/rest-text-to-speech?tabs=streaming
+
+GET https://eastus.api.cognitive.microsoft.com/cognitiveservices/voices/list
+
+
+Ocp-Apim-Subscription-Key: 8e2d65e466084da2a95835d95d0c52e7
+
+------------------------------------
+
+curl --location --request GET 'https://eastus.tts.speech.microsoft.com/cognitiveservices/voices/list' --header 'Ocp-Apim-Subscription-Key: 8e2d65e466084da2a95835d95d0c52e7'
+
+curl -X POST 'https://eastus.tts.speech.microsoft.com/cognitiveservices/v1' --header 'Ocp-Apim-Subscription-Key: 8e2d65e466084da2a95835d95d0c52e7' --header 'X-Microsoft-OutputFormat: riff-24khz-16bit-mono-pcm' --header 'Content-Type: application/ssml+xml' --data '<speak version="1.0" xml:lang="en-US"><voice xml:lang="en-US" xml:gender="Male" name="en-CA-ClaraNeural"> Reza! You successfully converted a sample text to speech using Azure Cognitive Services.</voice></speak>' >> c://data/file.wav
+
