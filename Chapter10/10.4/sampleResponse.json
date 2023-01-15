@@ -1,0 +1,29 @@
+{
+    "documents": [
+        {
+            "id": "1",
+            "sentiment": "negative",
+            "confidenceScores": {
+                "positive": 0.0,
+                "neutral": 0.01,
+                "negative": 0.99
+            },
+            "sentences": [
+                {
+                    "sentiment": "negative",
+                    "confidenceScores": {
+                        "positive": 0.0,
+                        "neutral": 0.01,
+                        "negative": 0.99
+                    },
+                    "offset": 0,
+                    "length": 26,
+                    "text": "I am not feeling too well!"
+                }
+            ],
+            "warnings": []
+        }
+    ],
+    "errors": [],
+    "modelVersion": "2022-11-01"
+}

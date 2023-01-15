@@ -2,8 +2,9 @@ curl --request GET 'https://api.cognitive.microsofttranslator.com/languages?api-
 
 key="8e2d65e466084da2a95835d95d0c52e7"
 location="eastus"
-detectEndpoint=$endpoint"/detect?api-version=3.0"
+detectionEndpoint=$endpoint"/detect?api-version=3.0"
 
 
 curl -X POST $detectEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -H "Ocp-Apim-Subscription-Region: $location" -H 'Content-Type: application/json' -d '[{ "Text": "Cognitive Services brings AI within reach of every developer." }]'
+
 
