@@ -1,6 +1,8 @@
-key="8e2d65e466084da2a95835d95d0c52e7"
+key1="8e2d65e466084da2a95835d95d0c52e7"
 location="eastus"
 endpoint="https://"$location".api.cognitive.microsoft.com/"
-imageOCREndpoint=$endpoint"/face/v1.0/detect?returnFaceLandmarks=true"
+textModerationEndpoint=$endpoint"contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true"
 
-curl -X POST $imageOCREndpoint -H "Ocp-Apim-Subscription-Key: $key1" -H "Content-Type: application/octet-stream" -F 'image=@Einstein.jpg'
+text="Is this a crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052"
+
+curl -X POST $textModerationEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -H "Content-Type: text/plain" -d "My email is abcdef@abcd.com, phone: 9957789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052"
