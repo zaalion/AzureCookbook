@@ -1,0 +1,645 @@
+{
+	"info": {
+		"_postman_id": "3df3d126-325d-4054-99a3-46c840b5a902",
+		"name": "Chapter 10",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3419921"
+	},
+	"item": [
+		{
+			"name": "list voices",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://eastus.tts.speech.microsoft.com/cognitiveservices/voices/list",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"tts",
+						"speech",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"cognitiveservices",
+						"voices",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "text to speech",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					},
+					{
+						"key": "X-Microsoft-OutputFormat",
+						"value": "riff-24khz-16bit-mono-pcm",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/ssml+xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<speak version=\"1.0\" xml:lang=\"en-US\"><voice xml:lang=\"en-US\" xml:gender=\"Male\" name=\"en-CA-ClaraNeural\"> Reza! You successfully converted a sample text to speech using Azure Cognitive Services.</voice></speak>"
+				},
+				"url": {
+					"raw": "https://eastus.tts.speech.microsoft.com/cognitiveservices/v1",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"tts",
+						"speech",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"cognitiveservices",
+						"v1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Text moderation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "908f2f5dcf464961bb65ce94a8e5c814",
+						"type": "text"
+					},
+					{
+						"key": "X-Microsoft-OutputFormat",
+						"value": "riff-24khz-16bit-mono-pcm",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "My email is reza@abcd.com, phone: 9957789887, IP: 255.255.255.255, 1005 Gravenstein Highway North Sebastopol, CA 95472"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"contentmoderator",
+						"moderate",
+						"v1.0",
+						"ProcessText",
+						"Screen"
+					],
+					"query": [
+						{
+							"key": "PII",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Translator get languages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.cognitive.microsofttranslator.com/languages?api-version=3.0",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cognitive",
+						"microsofttranslator",
+						"com"
+					],
+					"path": [
+						"languages"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "3.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Translator detect languages",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Region",
+						"value": "eastus",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    { \"Text\": \"Cognitive Services brings AI within reach of every developer.\" }\r\n]"
+				},
+				"url": {
+					"raw": "https://api.cognitive.microsofttranslator.com/detect?api-version=3.0",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cognitive",
+						"microsofttranslator",
+						"com"
+					],
+					"path": [
+						"detect"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "3.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Translator translate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Region",
+						"value": "eastus",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\"Text\":\"Cognitive Services brings AI within reach of every developer.\"}\r\n]"
+				},
+				"url": {
+					"raw": "https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=en&to=es&",
+					"protocol": "https",
+					"host": [
+						"api",
+						"cognitive",
+						"microsofttranslator",
+						"com"
+					],
+					"path": [
+						"translate"
+					],
+					"query": [
+						{
+							"key": "api-version",
+							"value": "3.0"
+						},
+						{
+							"key": "from",
+							"value": "en"
+						},
+						{
+							"key": "to",
+							"value": "es"
+						},
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sentiment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"documents\":[{\"language\":\"en\",\"id\":\"1\",\"text\":\"I am not feeling too well!\"}]}"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/text/analytics/v3.0/sentiment",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"text",
+						"analytics",
+						"v3.0",
+						"sentiment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision analyze",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"url\": \"https://www.visittheusa.com/sites/default/files/styles/state_hero_l/public/images/hero_media_image/2018-11/b311c1481829913164f33a353de10a66.jpeg?h=48d516a6&itok=P8lHZO0p\"\r\n}"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/analyze",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"analyze"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision analyze file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Data/Repo/AzureCookbook/Chapter10/10.5/images/image02.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/analyze",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"analyze"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision detect",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"url\": \"https://www.upexpress.com/Content/Images/DiscoverToronto/DiscoverToronto/Neighbourhoods/WaterfrontBeachesHarbour/279X174_Bike_Share_Toronto.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/detect",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"detect"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision detect file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/octet-stream",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Data/Repo/AzureCookbook/Chapter10/10.5/images/city.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/detect",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"detect"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision describe",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"url\": \"https://www.upexpress.com/Content/Images/DiscoverToronto/DiscoverToronto/Neighbourhoods/WaterfrontBeachesHarbour/279X174_Bike_Share_Toronto.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/describe",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"describe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision describe file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Data/Repo/AzureCookbook/Chapter10/10.5/images/trees.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/describe",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"describe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision OCR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"url\": \"https://www.vmcdn.ca/f/files/glaciermedia/import/lmp-all/1199637-0516-pomogoofysigns-1w.jpg\"\r\n}"
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/ocr?detectOrientation=true",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"ocr"
+					],
+					"query": [
+						{
+							"key": "detectOrientation",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vision OCR file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "8e2d65e466084da2a95835d95d0c52e7",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": "/C:/Data/Repo/AzureCookbook/Chapter10/10.5/images/Yosemite.jpg"
+					}
+				},
+				"url": {
+					"raw": "https://eastus.api.cognitive.microsoft.com/vision/v3.1/ocr?detectOrientation=true",
+					"protocol": "https",
+					"host": [
+						"eastus",
+						"api",
+						"cognitive",
+						"microsoft",
+						"com"
+					],
+					"path": [
+						"vision",
+						"v3.1",
+						"ocr"
+					],
+					"query": [
+						{
+							"key": "detectOrientation",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
