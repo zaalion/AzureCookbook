@@ -5,4 +5,4 @@ textModerationEndpoint=$endpoint"contentmoderator/moderate/v1.0/ProcessText/Scre
 
 text="Is this a crap email abcdef@abcd.com, phone: 6657789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052"
 
-curl -X POST $textModerationEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -H "Content-Type: text/plain" -d "My email is abcdef@abcd.com, phone: 9957789887, IP: 255.255.255.255, 1 Microsoft Way, Redmond, WA 98052"
+curl -X POST $textModerationEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -H "Content-Type: text/plain" -d "My email address is reza@abcd.com, phone: 9957789887, IP: 255.255.255.255, 1005 Gravenstein Highway North Sebastopol, CA 95472"
