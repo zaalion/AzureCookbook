@@ -27,3 +27,12 @@ az role assignment create \
 az role assignment list \
   --assignee developer@<aad-tenant-name> 
 ```
+
+# Cleanup
+
+Deleting the RBAC role assignment:
+```
+az role assignment delete \
+  --assignee "developer@<aad-tenant-name>" \
+  --role "Contributor"
+```
