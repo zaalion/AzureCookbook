@@ -1,9 +1,0 @@
-key="8e2d65e466084da2a95835d95d0c52e7"
-location="eastus"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
-imageDetectionEndpoint=$endpoint"/vision/v3.1/detect"
-
-
-cd C:/Data/Repo/AzureCookbook/Chapter10/10.5/images
-
-curl -X POST $imageDetectionEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -F 'image=@city.jpg'

@@ -1,6 +1,0 @@
-key="8e2d65e466084da2a95835d95d0c52e7"
-location="eastus"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
-imageDescribeEndpoint=$endpoint"/vision/v3.1/describe"
-
-curl -X POST $imageDescribeEndpoint -H "Ocp-Apim-Subscription-Key: $key1" -F 'image=@trees.jpg'
