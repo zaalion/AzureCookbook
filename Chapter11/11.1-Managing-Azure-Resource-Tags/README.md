@@ -4,7 +4,7 @@
 ### Creating a Storage Account and an Azure VNet
 ```
 rgName="<resource-group-name>"
-location="<region>""
+location="<region>"
 
 vnetName="<vnet-name>"
 az network vnet create \
