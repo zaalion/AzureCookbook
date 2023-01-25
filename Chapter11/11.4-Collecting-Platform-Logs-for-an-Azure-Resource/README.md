@@ -1,84 +1,56 @@
-# Managing Azure Resource Tags
+# Collecting Platform Logs for an Azure Resource
 
 
-### Creating a Storage Account and an Azure VNet
+### Creating a Key Vault resource
 ```
 rgName="<resource-group-name>"
+
+kvName="<key-vault-name>"
 location="<region>"
 
-vnetName="<vnet-name>"
-az network vnet create \
-    --location $location \
-    --resource-group $rgName \
-    --name $vnetName \
-    --address-prefix 10.0.0.0/16 \
-    --subnet-name Subnet01 \
-    --subnet-prefix 10.0.0.0/26
+az keyvault create \
+  --name $kvName \
+  --resource-group $rgName \
+  --location $location \
+  --enabled-for-disk-encryption
 
-storageName="<storage-account-name>"
-az storage account create \
-   --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS
-```
-
-### Grabbing the resource IDs
-```
-storageId=$(az storage account show \
+vaultID=$(az keyvault show \
     --resource-group $rgName \
-    --name $storageName \
+    --name $kvName \
     --query "id" \
     -o tsv)
+```
 
-vnetId=$(az network vnet show \
+### Provisioning a new Log Analytics Workspace
+```
+workspaceName="<log-analytics-ws-name>"
+
+az monitor log-analytics workspace create \
     --resource-group $rgName \
-    --name $vnetName \
+    --name $workspaceName \
+    --retention-time 31
+
+workspaceID=$(az monitor log-analytics workspace show \
+    --resource-group $rgName \
+    --workspace-name $workspaceName \
     --query "id" \
     -o tsv)
-
-echo $storageId
-
-echo $vnetId
 ```
 
-### Adding tags to the VNet
+### Configuring Diagnostic Settings for Azure Key Vault
 ```
-az tag create \
-    --resource-id $vnetId \
-    --tags Department=Finance Project=TravelPortal
-```
-
-### Adding tags to the Storage Account
-```
-az tag create \
-    --resource-id $storageId \
-    --tags Department=Finance Project=TravelPortal
+az monitor diagnostic-settings create \
+    --resource $vaultID  \
+    --name myKeyVault-logs \
+    --workspace $workspaceID \
+    --logs '[{"category": "AuditEvent","enabled": true}]' \
+    --metrics '[{"category": "AllMetrics","enabled": true}]'
 ```
 
-### Listing tags for a resource (VNet)
+### Creating a new Secret to Generate Some Audit Logs
 ```
-az tag list \
-    --resource-id $vnetId
-```
-
-### List all resources with a specific tag value
-```
-az resource list \
-    --tag Project=TravelPortal \
-    --query [].name
-```
-
-### Removing a tag
-```
-az tag update --resource-id $vnetId \
-    --operation Delete \
-    --tags Project=TravelPortal
-```
-
-### Confirming the removed tag
-```
-az resource list \
-    --tag Project=TravelPortal \
-    --query [].name
+az keyvault secret set \
+  --name "MySecret" \
+  --vault-name $kvName \
+  --value "MySecretValue"
 ```
