@@ -70,8 +70,8 @@ az databricks workspace create \
 ```
 // cell #1
 val storageAccountName = "<storage-account-name>"
-val fileSystemName = "{file_system_name}"
-val SAS = "{SAS_token}"
+val fileSystemName = "<file_system_name>"
+val SAS = "<SAS_token>"
 ```
 
 ### Cell 2
