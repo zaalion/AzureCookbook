@@ -3,7 +3,6 @@
 
 ### Creating a new Azure Storage Account and blob container
 ```
-rgName="<resource-group-name>"
 storageAccountName="<storage-account-name>"
 
 az storage account create \
@@ -57,12 +56,11 @@ az storage blob upload \
 ### Creating a new Azure Databricks workspace
 ```
 databricksWorkspaceName="<databricks-workspace>"
-location="<region>"
 
 az databricks workspace create \
   --resource-group $rgName \
   --name $databricksWorkspaceName \
-  --location $location \
+  --location $region \
   --sku standard
 ```
 
@@ -123,4 +121,9 @@ renameColDF.show()
 // cell #7
 renameColDF.write.json("/tmp/processed_country.json")
 dbutils.fs.ls ("/tmp/")
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

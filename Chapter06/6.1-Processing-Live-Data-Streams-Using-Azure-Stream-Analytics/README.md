@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Event Hubs namespace and a hub
 ```
-rgName="<resource-group-name>"
 eventHubNamespaceName="<ehub-namespace-name>"
 
 az eventhubs namespace create \
@@ -161,4 +160,9 @@ az storage blob list \
 az stream-analytics job stop \
   --job-name $streamJobName \
   --resource-group $rgName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

@@ -3,7 +3,6 @@
 
 ### Creating a new Azure Storage Account and blob container
 ```
-rgName="<resource-group-name>"
 storageAccountName="<storage-account-name>"
 
 az storage account create \
@@ -285,4 +284,9 @@ az storage blob list \
     --account-key $storageKey \
     --container-name "datasink" \
     --query [].name
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

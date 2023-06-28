@@ -78,3 +78,7 @@ az synapse spark pool delete \
   --resource-group $rgName
 ```
 
+### Clean up
+```
+az group delete --name $rgName
+```

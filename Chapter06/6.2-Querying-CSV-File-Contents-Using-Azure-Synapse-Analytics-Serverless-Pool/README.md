@@ -3,14 +3,13 @@
 
 ### Creating a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageAccountName="<storage-account-name>"
 
 az storage account create \
-   --name $storageAccountName \
-   --resource-group $rgName \
-   --sku Standard_LRS \
-   --enable-hierarchical-namespace true
+    --name $storageAccountName \
+    --resource-group $rgName \
+    --sku Standard_LRS \
+    --enable-hierarchical-namespace true
 ```
 
 ### Creating a new container
@@ -44,12 +43,12 @@ sqlUser="<sql-username>"
 sqlPassword="<sql-password>"
 
 az synapse workspace create \
-  --name $synapseWorkspaceName \
-  --resource-group $rgName \
-  --storage-account $storageAccountName \
-  --file-system "rawdata" \
-  --sql-admin-login-user $sqlUser \
-  --sql-admin-login-password $sqlPassword
+    --name $synapseWorkspaceName \
+    --resource-group $rgName \
+    --storage-account $storageAccountName \
+    --file-system "rawdata" \
+    --sql-admin-login-user $sqlUser \
+    --sql-admin-login-password $sqlPassword
 ```
 
 ### Grabbing the workspace URL
@@ -72,6 +71,8 @@ az synapse workspace firewall-rule create \
   --name "Allowing My IP" \
   --resource-group $rgName \
   --workspace-name $synapseWorkspaceName
+
+echo $workspaceURL
 
 ```
 
@@ -126,4 +127,9 @@ SELECT Make, COUNT(*) as Sold FROM dbo.electricHybridCars
 GROUP BY Make
 ORDER BY Sold DESC
 
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

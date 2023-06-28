@@ -3,8 +3,8 @@
   "properties": {
       "storageAccounts": [
           {
-              "accountName": "ch0601cookstorage",
-              "accountKey": "yco6kVW8BjZYTz+Ov8r0hVwgXhX/jYR+KsJfEQMI5c5ZsQoFkVEjF2uV7NNdYItYvf/ifNybX2jw+AStLm8LZQ=="
+              "accountName": "REPLACE_WITH_storage-account-name",
+              "accountKey": "REPLACE_WITH_storage-account-key"
           }
       ],
       "container": "outputcontainer",
