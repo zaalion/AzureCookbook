@@ -3,7 +3,6 @@
 
 ### Creating a new Storage Account and grabbing its key
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
 
 az storage account create \
@@ -46,4 +45,9 @@ webURL=$(az storage account show \
   --output tsv)
 
 echo $webURL
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

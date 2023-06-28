@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure App Service Plan
 ```
-rgName="<resource_group_name>"
 planName="<appservice-plan-name>"
 
 az appservice plan create \
@@ -41,4 +40,9 @@ url="https://"$(az webapp show \
   -o tsv)
 
 echo $url
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

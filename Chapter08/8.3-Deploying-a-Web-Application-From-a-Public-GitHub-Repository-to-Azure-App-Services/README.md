@@ -22,3 +22,8 @@ url="https://"$(az webapp show \
 
 echo $url
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

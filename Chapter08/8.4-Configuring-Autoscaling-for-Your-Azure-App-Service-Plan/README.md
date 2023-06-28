@@ -6,7 +6,7 @@
 appPlanId=$(az appservice plan show \
   --name $planName \
   --resource-group $rgName \
-  --query id -o tsv)
+  --query id --output tsv)
 ```
 
 ### Creating an auto-scale rule
@@ -44,4 +44,9 @@ az monitor autoscale rule create \
 az monitor autoscale rule list \
   --resource-group $rgName \
   --autoscale-name MyAutoScale
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

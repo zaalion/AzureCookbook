@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure App Service Plan
 ```
-rgName="<resource_group_name>"
 planName="<appservice-plan-name>"
 
 az appservice plan create \
@@ -40,10 +39,10 @@ az webapp create \
 ### Grabbing the FTP details for the App Service
 ```
 ftpDetails=($(az webapp deployment list-publishing-profiles \
-  --name $appServiceName \
-  --resource-group $rgName \
-  --query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" \
-  -o tsv))
+--name $appServiceName \
+--resource-group $rgName \
+--query "[?contains(publishMethod, 'FTP')].[publishUrl,userName,userPWD]" \
+--output tsv))
 ```
 
 ### Using cURL tp FTP content
@@ -60,4 +59,9 @@ url="https://"$(az webapp show \
   -o tsv)"/index.php"
 
 echo $url
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

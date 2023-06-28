@@ -56,3 +56,8 @@ az webapp config access-restriction show \
   --resource-group $rgName \
   --name $appServiceName
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```
