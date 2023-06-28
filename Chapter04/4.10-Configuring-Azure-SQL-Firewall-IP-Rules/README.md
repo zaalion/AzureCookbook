@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure logical SQL Server and a child SQL database
 ```
-rgName="<resource-group-name>"
 logicalServerName="<logical-sql-server-name>"
 sqlAdminUser="<admin-user>"
 sqlAdminPass="<admin-pass>"
@@ -42,7 +41,7 @@ az sql server firewall-rule create \
 az sql server firewall-rule create \
   --resource-group $rgName \
   --server $logicalServerName \
-  --name allowAzureServices  \
+  --name allowAzureServices \
   --start-ip-address 0.0.0.0 \
   --end-ip-address 0.0.0.0
 ```
@@ -52,4 +51,9 @@ az sql server firewall-rule create \
 az sql server firewall-rule list \
   --resource-group $rgName \
   --server $logicalServerName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

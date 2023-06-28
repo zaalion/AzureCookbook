@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Cosmos DB Account
 ```
-rgName="<resource-group-name>"
 cosmosAccountName="<cosmos-account-name>"
 
 az cosmosdb create \
@@ -18,7 +17,7 @@ allowedIPRange="<allowed-ip-range>"
 az cosmosdb update \
   --resource-group $rgName \
   --name $cosmosAccountName \
-  --ip-range-filter $allowedIPRange 
+  --ip-range-filter $allowedIPRange
 ```
 
 ### Creating a new Azure VNet
@@ -64,4 +63,9 @@ az cosmosdb network-rule add \
 az cosmosdb network-rule list \
   --name $cosmosAccountName \
   --resource-group $rgName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

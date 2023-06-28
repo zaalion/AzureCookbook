@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure logical SQL Server
 ```
-rgName="<resource-group-name>"
 logicalServerName="<logical-sql-server-name>"
 sqlAdminUser="<admin-user>"
 
@@ -52,4 +51,9 @@ az sql elastic-pool list-dbs \
   --name $sqlPoolName \
   --server $logicalServerName \
   --query [].name
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

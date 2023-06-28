@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Cosmos DB Account
 ```
-rgName="<resource-group-name>"
 cosmosAccountName="<cosmos-account-name>"
 
 az cosmosdb create \
@@ -66,4 +65,9 @@ az cosmosdb sql container throughput update \
   --database-name db01 \
   --name People \
   --max-throughput 2000
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

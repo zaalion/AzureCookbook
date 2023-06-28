@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Cosmos DB Account
 ```
-rgName="<resource-group-name>"
 cosmosAccountName="<cosmos-account-name>"
 
 az cosmosdb create \
@@ -32,4 +31,9 @@ MSYS_NO_PATHCONV=1 az cosmosdb sql container create \
   --database-name MyCompanyDB \
   --account-name $cosmosAccountName \
   --resource-group $rgName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

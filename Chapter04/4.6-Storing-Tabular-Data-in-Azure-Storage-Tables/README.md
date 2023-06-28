@@ -3,24 +3,22 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<location>"
 
 az storage account create \
-   --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS
+  --name $storageName \
+  --resource-group $rgName \
+  --location $region \
+  --sku Standard_LRS
 ```
 
 ### Getting the Storage Account key
 ```
 storageKey1=$(az storage account keys list \
-    --resource-group $rgName \
-    --account-name $storageName \
-    --query [0].value \
-    --output tsv)
+  --resource-group $rgName \
+  --account-name $storageName \
+  --query [0].value \
+  --output tsv)
 ```
 
 ### Creating a table in the Storage Account and inserting two data rows
@@ -51,5 +49,10 @@ az storage entity insert \
 az storage entity query \
   --table-name People \
   --account-name $storageName \
-  --account-key $storageKey1 
+  --account-key $storageKey1
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

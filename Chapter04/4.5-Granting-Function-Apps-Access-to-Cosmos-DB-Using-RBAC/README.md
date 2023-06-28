@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Cosmos DB Account
 ```
-rgName="<resource-group-name>"
 cosmosAccountName="<cosmos-account-name>"
 
 az cosmosdb create \
@@ -13,30 +12,29 @@ az cosmosdb create \
 
 ### Provisioning an Azure Function App
 ```
-funcStorageAccount="<func-storage-account-name>"
+funcStorageAccount="<_func-storage-account-name_>"
 planName="<appservice-plan-name>"
 funcAppName="<function-app-name>"
-location="<region>"
 
 az storage account create \
-    --name $funcStorageAccount \
-    --resource-group $rgName \
-    --location $location \
-    --sku Standard_LRS 
+  --name $funcStorageAccount \
+  --resource-group $rgName \
+  --location $region \
+  --sku Standard_LRS
 
 az appservice plan create \
-    --resource-group $rgName \
-    --name $planName \
-    --sku S1 \
-    --location $location
+  --resource-group $rgName \
+  --name $planName \
+  --sku S1 \
+  --location $region
 
 az functionapp create \
-    --resource-group $rgName \
-    --name $funcAppName \
-    --storage-account $funcStorageAccount \
-    --assign-identity [system] \
-    --functions-version 3 \
-    --plan $planName 
+  --resource-group $rgName \
+  --name $funcAppName \
+  --storage-account $funcStorageAccount \
+  --assign-identity [system] \
+  --functions-version 3 \
+  --plan $planName 
 ```
 
 ### Storing the Cosmos DB account Id and Function App identity object Id
@@ -45,13 +43,13 @@ cosmosAccountId=$(az cosmosdb show \
   --name $cosmosAccountName \
   --resource-group $rgName \
   --query id \
-  -o tsv)
+  --output tsv)
 
 funcObjectId=$(az functionapp show \
-    --name $funcAppName \
-    --resource-group $rgName \
-    --query identity.principalId
-    --output tsv)
+  --name $funcAppName \
+  --resource-group $rgName \
+  --query identity.principalId \
+  --output tsv)
 ```
 
 ### The custom RBAC rule definition
@@ -97,13 +95,18 @@ MSYS_NO_PATHCONV=1 az cosmosdb sql role assignment create \
 roleDefinitionId=$(az cosmosdb sql role assignment list \
   --account-name $cosmosAccountName \
   --resource-group $rgName \
-  --query [0].roleDefinitionId -o tsv)
+  --query [0].roleDefinitionId --output tsv)
 
 # The last 36 characters will be the role definition ID (GUID)
 roleDefinitionGUID=${roleDefinitionId: -36}
 
 az cosmosdb sql role definition show \
   --account-name $cosmosAccountName \
-  --resource-group $rgName  \
+  --resource-group $rgName \
   --id $roleDefinitionGUID
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

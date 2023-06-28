@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure logical SQL Server
 ```
-rgName="<resource-group-name>"
 logicalServerName="<logical-sql-server-name>"
 sqlAdminUser="<admin-user>"
 sqlAdminPass="<admin-pass>"
@@ -40,4 +39,9 @@ az sql db show \
   --name db01 \
   --query \
   "{Name: name, Sku: currentSku, Edition: edition, MinCapacity: minCapacity}"
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

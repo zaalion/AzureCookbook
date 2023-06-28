@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure SQL database
 ```
-rgName="<resource-group-name>"
 logicalServerName="<logical-sql-server-name>"
 sqlAdminUser="<admin-user>"
 sqlAdminPass="<admin-pass>"
@@ -32,7 +31,7 @@ az sql db create \
 az sql server firewall-rule create \
   --resource-group $rgName \
   --server $logicalServerName \
-  --name allowAzureServices  \
+  --name allowAzureServices \
   --start-ip-address 0.0.0.0 \
   --end-ip-address 0.0.0.0
 ```
@@ -51,15 +50,15 @@ az storage account create \
    --sku Standard_LRS
 
 storageKey1=$(az storage account keys list \
-    --resource-group $rgName \
-    --account-name $storageName \
-    --query [0].value \
-    --output tsv)
+  --resource-group $rgName \
+  --account-name $storageName \
+  --query [0].value \
+  --output tsv)
 
 MSYS_NO_PATHCONV=1 az storage container create \
-    --name $bakContainerName \
-    --account-name $storageName \
-    --account-key $storageKey1
+  --name $bakContainerName \
+  --account-name $storageName \
+  --account-key $storageKey1
 ```
 
 ### Creating a SQL backup and save it in the storage container
@@ -85,4 +84,9 @@ MSYS_NO_PATHCONV=1 az storage blob list \
   --account-key $storageKey1 \
   --account-name $storageName \
   --query "[].{Name: name, Length: properties.contentLength}"
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

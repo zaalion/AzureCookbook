@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Cosmos DB Account
 ```
-rgName="<resource-group-name>"
 cosmosAccountName="<cosmos-account-name>"
 
 az cosmosdb create \
@@ -28,19 +27,19 @@ az network vnet create \
 cosmosAccountId=$(az cosmosdb show \
   --name $cosmosAccountName \
   --resource-group $rgName \
-  --query id -o tsv)
+  --query id --output tsv)
 ```
 
 ### Creating a private endpoint for Cosmos DB
 ```
 MSYS_NO_PATHCONV=1 az network private-endpoint create \
-    --name MyCosmosPrivateEndpoint \
-    --resource-group $rgName \
-    --vnet-name $vnetName  \
-    --subnet PLSubnet \
-    --connection-name MyEndpointConnection \
-    --private-connection-resource-id $cosmosAccountId \
-    --group-id Sql
+  --name MyCosmosPrivateEndpoint \
+  --resource-group $rgName \
+  --vnet-name $vnetName \
+  --subnet PLSubnet \
+  --connection-name MyEndpointConnection \
+  --private-connection-resource-id $cosmosAccountId \
+  --group-id Sql
 ```
 
 ### Disabling public network access for Cosmos DB
@@ -49,4 +48,9 @@ az cosmosdb update \
   --resource-group $rgName \
   --name $cosmosAccountName \
   --enable-public-network false
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

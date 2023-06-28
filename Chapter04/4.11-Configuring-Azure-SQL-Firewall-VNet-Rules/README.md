@@ -31,3 +31,8 @@ az sql server vnet-rule create \
   --vnet-name $vnetName \
   --subnet Subnet01
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```
