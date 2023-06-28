@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Service Bus Namespace
 ```
-rgName="<resource-group-name>"
 namespaceName="<servicebus-namespace-name>"
 
 az servicebus namespace create \
@@ -17,7 +16,7 @@ az servicebus namespace create \
 az servicebus topic create \
   --resource-group $rgName \
   --namespace-name $namespaceName \
-  --name notificationsTopic   
+  --name notificationsTopic  
 
 ```
 
@@ -34,4 +33,9 @@ az servicebus topic subscription create \
   --namespace-name $namespaceName \
   --topic-name notificationsTopic \
   --name subscription02
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

@@ -3,26 +3,24 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
 queueName="ordersqueue"
-location="<region>"
 
 az storage account create \
-   --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS \
-   --kind StorageV2
+  --name $storageName \
+  --resource-group $rgName \
+  --location $region \
+  --sku Standard_LRS \
+  --kind StorageV2
 ```
 
 ### Obtaining the Storage Account key
 ```
 storageKey=$(az storage account keys list \
-    --resource-group $rgName \
-    --account-name $storageName \
-    --query [0].value \
-    --output tsv)
+  --resource-group $rgName \
+  --account-name $storageName \
+  --query [0].value \
+  --output tsv)
 ```
 
 ### Creating a queue in the Storage Account
@@ -54,4 +52,9 @@ az storage message get \
   --queue-name $queueName \
   --account-name $storageName \
   --account-key $storageKey
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

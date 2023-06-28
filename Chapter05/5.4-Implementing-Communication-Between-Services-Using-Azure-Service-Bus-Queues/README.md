@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Service Bus Namespace
 ```
-rgName="<resource-group-name>"
 namespaceName="<servicebus-namespace-name>"
 
 az servicebus namespace create \
@@ -18,4 +17,18 @@ az servicebus queue create \
   --resource-group $rgName \
   --namespace-name $namespaceName \
   --name ordersqueue
+```
+
+### Get the namespace connection string
+```
+az servicebus namespace \
+  authorization-rule keys list \
+  --resource-group $rgName \
+  --namespace-name $namespaceName \
+  --name RootManageSharedAccessKey
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

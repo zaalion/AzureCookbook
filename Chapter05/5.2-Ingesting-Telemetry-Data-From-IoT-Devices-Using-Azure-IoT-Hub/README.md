@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure IoT Hub
 ```
-rgName="<resource-group-name>"
 iotHubName="<iot-hub-name>"
 
 az iot hub create \
@@ -34,4 +33,9 @@ az iot device send-d2c-message \
   --hub-name $iotHubName \
   --device-id $deviceId \
   --data 'temperature=112.8'
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

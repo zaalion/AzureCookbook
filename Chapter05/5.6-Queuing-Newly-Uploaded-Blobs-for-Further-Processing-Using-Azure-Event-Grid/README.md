@@ -3,15 +3,13 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<region>"
 
 az storage account create \
   --name $storageName \
   --resource-group $rgName \
   --sku Standard_LRS \
-  --location $location \
+  --location $region \
   --kind StorageV2
 ```
 
@@ -20,7 +18,7 @@ az storage account create \
 storageKey=$(az storage account keys list \
   --resource-group $rgName \
   --account-name $storageName \
-  --query [0].value --output tsv)  
+  --query [0].value --output tsv)
 ```
 
 ### Creating a new container
@@ -48,7 +46,7 @@ az storage queue create \
 storageResId=$(az storage account show \
   --name $storageName \
   --resource-group $rgName \
-  --query id -o tsv)
+  --query id --output tsv)
 
 storageQueueId=\
   "$storageResId/queueservices/default/queues/"$queueName
@@ -63,7 +61,7 @@ MSYS_NO_PATHCONV=1 az eventgrid system-topic create \
   --name $topicName \
   --topic-type microsoft.storage.storageaccounts \
   --source $storageResId \
-  --location $location
+  --location $region
 ```
 
 ### Creating a subscription for the Event Grid topic
@@ -98,4 +96,9 @@ az storage message get \
   --queue-name $queueName \
   --account-name $storageName \
   --account-key $storageKey
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

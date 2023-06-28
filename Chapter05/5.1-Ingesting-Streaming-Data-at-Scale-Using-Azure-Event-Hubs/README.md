@@ -3,7 +3,6 @@
 
 ### Provisioning a new Azure Event Hubs namespace
 ```
-rgName="<resource-group-name>"
 eventHubNamespaceName="<ehub-namespace-name>"
 
 az eventhubs namespace create \
@@ -51,4 +50,9 @@ curl -X POST \
   -d "$event" \
   $endpoint \
   --verbose
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```
