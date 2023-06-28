@@ -3,7 +3,6 @@
 
 ### Listing Tables in a Log Analytics Workspace
 ```
-rgName="<resource-group-name>"
 workspaceName="<log-analytics-ws-name>"
 
 az monitor log-analytics workspace table list \
@@ -18,7 +17,7 @@ wsGUID=$(az monitor log-analytics workspace show \
     --resource-group $rgName \
     --name $workspaceName \
     --query customerId \
-    -o tsv)
+    --output tsv)
 ```
 
 ### Querying the AzureMetrics Table
@@ -61,9 +60,10 @@ az monitor log-analytics query \
 
 ### Querying the AzureDiagnostics Table
 ```
---workspace $wsGUID \
---analytics-query \
-"AzureDiagnostics | where ResourceId has \"$kvName\""
+az monitor log-analytics query \
+    --workspace $wsGUID \
+    --analytics-query \
+    "AzureDiagnostics | where ResourceId has \"$kvName\""
 ```
 
 ### Sample Record from AzureDiagnostics Table
@@ -100,4 +100,9 @@ az monitor log-analytics query \
     "properties_sku_Name_s": "standard",
     "properties_softDeleteRetentionInDays_d": "90"
 }
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

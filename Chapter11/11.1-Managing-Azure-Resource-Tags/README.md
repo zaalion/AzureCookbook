@@ -3,12 +3,10 @@
 
 ### Creating a Storage Account and an Azure VNet
 ```
-rgName="<resource-group-name>"
-location="<region>"
-
 vnetName="<vnet-name>"
+
 az network vnet create \
-    --location $location \
+    --location $region \
     --resource-group $rgName \
     --name $vnetName \
     --address-prefix 10.0.0.0/16 \
@@ -16,11 +14,12 @@ az network vnet create \
     --subnet-prefix 10.0.0.0/26
 
 storageName="<storage-account-name>"
+
 az storage account create \
-   --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS
+    --name $storageName \
+    --resource-group $rgName \
+    --location $region \
+    --sku Standard_LRS
 ```
 
 ### Grabbing the resource IDs
@@ -29,13 +28,13 @@ storageId=$(az storage account show \
     --resource-group $rgName \
     --name $storageName \
     --query "id" \
-    -o tsv)
+    --output tsv)
 
 vnetId=$(az network vnet show \
     --resource-group $rgName \
     --name $vnetName \
     --query "id" \
-    -o tsv)
+    --output tsv)
 
 echo $storageId
 
@@ -81,4 +80,9 @@ az tag update --resource-id $vnetId \
 az resource list \
     --tag Project=TravelPortal \
     --query [].name
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```
