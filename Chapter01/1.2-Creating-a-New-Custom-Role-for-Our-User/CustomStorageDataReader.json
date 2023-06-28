@@ -6,5 +6,5 @@
   "DataActions": [
     "Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read"
   ],
-  "AssignableScopes": ["/subscriptions/19969c81-e8ff-4585-8c2f-3f196b588227"]
+  "AssignableScopes": ["/subscriptions/[REPLACE_WITH_subscriptionScope]"]
 }

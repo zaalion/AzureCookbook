@@ -19,15 +19,15 @@ kvName="<key-vault-name>"
 
 az keyvault create \
   --name $kvName \
-  --resource-group <resource-group-name> \
-  --location eastus \
+  --resource-group $rgName \
+  --location $region \
   --enabled-for-disk-encryption
 ```
 
 ### Enable Azure VM encryption:
 ```
 az vm encryption enable \
-  --resource-group <resource-group-name> \
+  --resource-group $rgName \
   --name $vmName \
   --disk-encryption-keyvault $kvName
 ```
@@ -36,5 +36,10 @@ az vm encryption enable \
 ```
 az vm encryption show \
   --name $vmName \
-  --resource-group <resource-group-name>
+  --resource-group $rgName
+```
+
+### Delete the resource group:
+```
+az group delete --name $rgName
 ```

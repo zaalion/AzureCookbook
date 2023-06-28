@@ -3,13 +3,13 @@
 ### Get the policy id/name:
 ```
 policyName=$(az policy definition list \
-  --query "[?displayName == 'Allowed locations'].name" -o tsv)
+  --query "[?displayName == 'Allowed locations'].name" --output tsv)
 ```
 
 ### Assign the policy to the subscription:
 ```
 az policy assignment create \
-  --name 'Allowed regions for my resources' \ 
+  --name 'Allowed regions for my resources' \
   --enforcement-mode Default \
   --policy $policyName \
   --params allowedLocationParams.json

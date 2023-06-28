@@ -7,8 +7,8 @@ location="<region>"
 
 az storage account create \
   --name $storageName \
-  --resource-group <resource-group-name> \
-  --location $location \
+  --resource-group $rgName \
+  --location $region \
   --sku Standard_LRS \
   --allow-blob-public-access false
 ```
@@ -17,6 +17,11 @@ az storage account create \
 ```
 az storage account update \
   --name $storageName \
-  --resource-group <resource-group-name> \
+  --resource-group $rgName \
   --allow-blob-public-access false
+```
+
+### Clean up:
+```
+az group delete --name $rgName
 ```

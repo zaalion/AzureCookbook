@@ -7,7 +7,7 @@ kvName="<key-vault-name>"
 
 az keyvault create --name $kvName \
   --resource-group $rgName \
-  --location eastus 
+  --location $region
 ```
 
 ### Adding a new secret
@@ -22,5 +22,10 @@ az keyvault secret set \
 ```
 az keyvault secret show \
   --name MyDatabasePassword \
-  --vault-name $kvName 
+  --vault-name $kvName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

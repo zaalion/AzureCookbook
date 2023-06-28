@@ -15,17 +15,20 @@ az group create \
 az vm create --name MyLinuxVM01 \
   --resource-group $rgName \
   --image UbuntuLTS \
+  --vnet-address-prefix 10.0.0.0/16 \
   --admin-username linuxadmin \
-  --admin-password <vm-password> \
-  --authentication-type all \
-  --public-ip-address "" --nsg ""
+  --generate-ssh-keys \
+  --authentication-type ssh \
+  --public-ip-address "" \
+  --nsg-rule SSH \
+  --nsg "MyLinuxVM01-NSG"
 ```
 
 ### Get new VNet name
 ```
 vnetName=$(az network vnet list \
   --resource-group $rgName \
-  --query "[].name" -o tsv)
+  --query "[].name" --output tsv)
 ```
 
 ### Create a new Public IP resource:
@@ -41,17 +44,17 @@ az network public-ip create \
 ### Create a new subnet for Azure Bastion
 ```
 az network vnet subnet create \
-  --resource-group $rgName \ 
+  --resource-group $rgName \
   --vnet-name $vnetName \
-  --name 'AzureBastionSubnet'  \
-  --address-prefixes 10.0.1.0/24 
+  --name 'AzureBastionSubnet' \
+  --address-prefixes 10.0.1.0/24
 ```
 
 ### Create the Bastion resource:
 ```
 az network bastion create \
-  --location eastus \
-  --name MyBastionHost01 \ 
+  --location $region \
+  --name MyBastionHost01 \
   --public-ip-address $ipName \
   --resource-group $rgName \
   --vnet-name $vnetName

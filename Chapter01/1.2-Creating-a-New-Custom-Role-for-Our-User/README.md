@@ -2,10 +2,12 @@
 
 ### Get the subscription id
 ```
-subscriptionId="/subscriptions/"$(az account show \
-  --query "id" -o tsv)
+subscriptionId=$(az account show \
+  --query "id" --output tsv)
 
-echo $subscriptionId
+subscriptionScope="/subscriptions/"$subscriptionId
+
+echo $subscriptionScope
 ```
 
 ### Create a new custom RBAC role definition:
@@ -16,8 +18,8 @@ az role definition create \
 
 ### Assign the new role definition to user account
 ```
-az role assignment create \
+MSYS_NO_PATHCONV=1 az role assignment create \
   --assignee "developer@<aad-tenant-name>" \
   --role "Custom Storage Data Reader" \
-  --scope $subscriptionId
+  --scope $subscriptionScope
 ```

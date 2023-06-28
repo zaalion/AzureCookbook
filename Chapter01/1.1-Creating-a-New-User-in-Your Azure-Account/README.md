@@ -3,20 +3,25 @@
 
 ### Create a new user in your Azure Active Directory:
 ```
+password="<password>"
+
 az ad user create \
   --display-name developer \
-  --password P@ssw0rd6 \
+  --password $password \
   --user-principal-name developer@<aad-tenant-name>
 ```
 
 ### Get the subscription id:
 ```
-subscriptionId="/subscriptions/"$(az account show --query "id" -o tsv)
+subscriptionId=$(az account show \
+  --query "id" --output tsv)
+
+subscriptionScope="/subscriptions/"$subscriptionId
 ```
 
 ### Create a new RBAC role assignment:
 ```
-az role assignment create \
+MSYS_NO_PATHCONV=1 az role assignment create \
   --assignee "developer@<aad-tenant-name>" \
   --role "Contributor" \
   --scope $subscriptionId

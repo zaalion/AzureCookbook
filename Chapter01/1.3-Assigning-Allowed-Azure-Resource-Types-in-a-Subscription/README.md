@@ -3,7 +3,7 @@
 ### Get the desired policy id/name:
 ```
 policyName=$(az policy definition list \
-  --query "[?displayName == 'Allowed resource types'].name" -o tsv)
+  --query "[?displayName == 'Allowed resource types'].name" --output tsv)
 ```
 
 ### Get the list of available policy definitions
@@ -15,7 +15,7 @@ az policy definition list \
 ### Assign the policy to the subscription:
 ```
 az policy assignment create \
-  --name 'Allowed resource types in my subscription' \ 
+  --name 'Allowed resource types in my subscription' \
   --enforcement-mode Default \
   --policy $policyName \
   --params allowedResourcesParams.json
