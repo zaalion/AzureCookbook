@@ -3,8 +3,7 @@
 
 ### Finding the correct endpoint
 ```
-location="<location>"
-endpoint="https://"$location".tts.speech.microsoft.com/cognitiveservices/v1"
+endpoint="https://"$region".tts.speech.microsoft.com/cognitiveservices/v1"
 ```
 
 ### Calling the text-to-speech API using cURL

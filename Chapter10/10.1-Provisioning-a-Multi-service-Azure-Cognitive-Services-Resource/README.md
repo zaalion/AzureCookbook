@@ -34,27 +34,23 @@ az cognitiveservices account list-kinds
 
 ### Provisioning a multi-service Cognitive Services resource
 ```
-rgName="<resource-group-name>"
 serviceName="<cog-service-name>"
 
-# for example 'eastus'
-location="<location>"
-
 az cognitiveservices account create \
-    --name $serviceName \
-    --resource-group $rgName \
-    --sku S0 \
-    --kind CognitiveServices \
-    --location $location
+  --name $serviceName \
+  --resource-group $rgName \
+  --sku S0 \
+  --kind CognitiveServices \
+  --location $region
 ```
 
 ### Grabbing the service key
 ```
 key1=$(key1=$(az cognitiveservices account keys list \
-    --name $serviceName \
-    --resource-group $rgName \
-    --query key1 \
-    --output tsv))
+  --name $serviceName \
+  --resource-group $rgName \
+  --query key1 \
+  --output tsv))
 
 echo $key1
 ```

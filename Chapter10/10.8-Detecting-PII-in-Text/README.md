@@ -3,10 +3,8 @@
 
 ### Flagging PII in text content
 ```
-location="<location>"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
-textModerationEndpoint=\
-    $endpoint"contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true"
+endpoint="https://"$region".api.cognitive.microsoft.com/"
+textModerationEndpoint=$endpoint"contentmoderator/moderate/v1.0/ProcessText/Screen?PII=true"
 
 curl -X POST $textModerationEndpoint \
     -H "Ocp-Apim-Subscription-Key: $key1" \
@@ -64,4 +62,9 @@ curl -X POST $textModerationEndpoint \
     },
     "TrackingId": "33e82de8-aa5d-453e-bedf-46997abf37f9"
 }
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

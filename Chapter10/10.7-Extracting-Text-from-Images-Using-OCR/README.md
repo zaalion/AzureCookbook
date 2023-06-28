@@ -3,8 +3,7 @@
 
 ### Performing OCR
 ```
-location="<location>"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
+endpoint="https://"$region".api.cognitive.microsoft.com/"
 imageOCREndpoint=$endpoint"/vision/v3.1/ocr?detectOrientation=true"
 
 curl -X POST $imageOCREndpoint \

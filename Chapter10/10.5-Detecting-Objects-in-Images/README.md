@@ -3,8 +3,7 @@
 
 ### Detecting objects in a sample image
 ```
-location="<location>"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
+endpoint="https://"$region".api.cognitive.microsoft.com/"
 imageDetectionEndpoint=$endpoint"/vision/v3.1/detect"
 
 curl -X POST $imageDetectionEndpoint \

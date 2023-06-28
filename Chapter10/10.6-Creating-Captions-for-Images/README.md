@@ -3,8 +3,7 @@
 
 ### Describing an image (caption creation)
 ```
-location="<location>"
-endpoint="https://"$location".api.cognitive.microsoft.com/"
+endpoint="https://"$region".api.cognitive.microsoft.com/"
 imageDescribeEndpoint=$endpoint"/vision/v3.1/describe"
 
 curl -X POST $imageDescribeEndpoint \
