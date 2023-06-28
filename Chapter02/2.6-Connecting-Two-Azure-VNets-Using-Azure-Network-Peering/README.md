@@ -42,3 +42,8 @@ az network vnet peering create \
     --remote-vnet VNet01 \
     --allow-vnet-access
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

@@ -41,3 +41,8 @@ az network vnet subnet update \
     --vnet-name $vnetName \
     --route-table $routeTableName
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

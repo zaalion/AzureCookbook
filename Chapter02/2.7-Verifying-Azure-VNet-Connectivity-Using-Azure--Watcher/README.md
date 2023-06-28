@@ -42,7 +42,7 @@ az network watcher test-connectivity \
     --resource-group $rgName \
     --source-resource vm001 \
     --dest-address 13.107.21.200 \
-    --dest-port 80  \
+    --dest-port 80 \
     --query "connectionStatus"
 ```
 
@@ -51,5 +51,10 @@ az network watcher test-connectivity \
 az vm delete \
     --resource-group $rgName \
     --name vm001 \
-    --yes 
+    --yes
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

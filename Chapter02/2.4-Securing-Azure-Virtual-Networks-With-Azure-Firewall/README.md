@@ -15,14 +15,12 @@ az network vnet subnet create \
 
 ### Creating a new Azure Firewall resource
 ```
-rgName="<resource-group-name>"
-vnetName="<vnet-name>"
 firewallName="<firewall-name>"
 
 az network firewall create \
     --resource-group $rgName \
     --name $firewallName \
-    --tier Standard 
+    --tier Standard
 ```
 
 ### Assigning a public IP address to the Firewall
@@ -36,9 +34,9 @@ az network public-ip create \
 
 
 az network firewall ip-config create \
-    --resource-group $rgName \ 
+    --resource-group $rgName \
     --name fwIPConfiguration01
-    --firewall-name $FirewallName \
+    --firewall-name $firewallName \
     --public-ip-address $pIPName \
     --vnet-name $vnetName
 ```
@@ -68,10 +66,10 @@ az network route-table create \
 ### Getting the Firewall resource private IP address:
 ```
 firewallPrivateIP=$(az network firewall show \
-    --name $FirewallName \
+    --name $firewallName \
     --resource-group $rgName \
     --query "ipConfigurations[0].privateIpAddress" \
-    -o tsv)
+    --output tsv)
 ```
 
 ### Adding a custom route to the Route Table
@@ -94,4 +92,9 @@ az network vnet subnet update \
     --name Subnet02 \
     --vnet-name $vnetName \
     --route-table $routeTableName
+```
+
+### Clean up:
+```
+az group delete --name $rgName
 ```
