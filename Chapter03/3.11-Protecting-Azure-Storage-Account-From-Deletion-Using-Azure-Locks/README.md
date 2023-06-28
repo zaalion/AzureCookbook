@@ -3,15 +3,13 @@
 
 ### Creating a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<region>"
 
 az storage account create \
     --name $storageName \
     --resource-group $rgName \
-    --location $location \
-    --sku Standard_LRS 
+    --location $region \
+    --sku Standard_LRS
 ```
 
 ### Creating a new lock for the Storage Account
@@ -31,4 +29,9 @@ az lock delete \
     --resource-group $rgName \
     --resource $storageName \
     --resource-type "Microsoft.Storage/storageAccounts"
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

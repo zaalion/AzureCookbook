@@ -7,30 +7,29 @@ rgName="<resource-group-name>"
 kvName="<kv-Name>"
 
 az keyvault create --name $kvName \
-  --resource-group $rgName \
-  --location eastus 
-  --enable-purge-protection
+    --resource-group $rgName \
+    --location $region \
+    --enable-purge-protection
 ```
 
 ### Creating a new encryption key
 ```
 az keyvault key create \
-    --name storage-cmk-key 
-    --vault-name $kvName
-    --kty RSA
-    --size 4096   
+    --name storage-cmk-key \
+    --vault-name $kvName \
+    --kty RSA \
+    --size 4096  
 ```
 
 ### Creating a new Azure Storage Account
 ```
 storageName="<storage-account-name>"
-location=<region>
 
 az storage account create \
-   --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS
+    --name $storageName \
+    --resource-group $rgName \
+    --location $region \
+    --sku Standard_LRS
 ```
 
 ### Enabling managed identity for Azure Storage Account and store the identity object Id
@@ -68,4 +67,9 @@ az storage account update \
     --encryption-services blob \
     --encryption-key-vault $kvURL \
     --encryption-key-name storage-cmk-key
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

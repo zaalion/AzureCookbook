@@ -3,17 +3,15 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location=<region>
 
 az storage account create \
     --name $storageName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS \
-   --default-action Deny \
-   --public-network-access Enabled
+    --resource-group $rgName \
+    --location $region \
+    --sku Standard_LRS \
+    --default-action Deny \
+    --public-network-access Enabled
 ```
 
 ### Creating a new Azure VNet
@@ -35,23 +33,13 @@ az network vnet subnet update \
     --service-endpoints "Microsoft.Storage"
 ```
 
-### Grabbing the subnet Id
-```
-subnetId=$(az network vnet subnet show \
-    --resource-group $rgName \
-    --vnet-name VNet01 \
-    --name Subnet01 \
-    --query id \
-    --output tsv)
-```
-
 ### Configuring Storage Account firewall by allowing traffic from VNet01
 ```
 az storage account network-rule add \
     --resource-group $rgName \
     --account-name $storageName \
     --vnet-name VNet01 \
-    --subnet $subnetId \
+    --subnet Subnet01 \
     --action Allow
 ```
 
@@ -60,4 +48,9 @@ az storage account network-rule add \
 az storage account network-rule list \
     --account-name $storageName \
     --resource-group $rgName
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

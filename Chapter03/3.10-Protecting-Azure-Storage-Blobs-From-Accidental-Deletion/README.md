@@ -44,3 +44,8 @@ az storage blob list \
     --container-name $containerName \
     --query [].name
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

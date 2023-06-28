@@ -3,17 +3,15 @@
 
 ### Creating a new Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<region>"
 
 az storage account create \
-    --name $storageName \
-    --access-tier Hot \
-    --resource-group $rgName \
-    --location $location \
-    --sku Standard_LRS \
-    --default-action Allow
+  --name $storageName \
+  --access-tier Hot \
+  --resource-group $rgName \
+  --location $region \
+  --sku Standard_LRS \
+  --default-action Allow
 ```
 
 ### Sample life-cycle rule definition
@@ -53,7 +51,12 @@ az storage account create \
 ### Creating a new life-cycle policy for Azure Storage Account
 ```
 az storage account management-policy create \
-    --resource-group $rgName \
-    --account-name $storageName \
-    --policy <path-to-folder/ACCESS_POLICY.JSON> 
+  --resource-group $rgName \
+  --account-name $storageName \
+  --policy <path-to-folder/ACCESS_POLICY.JSON>
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

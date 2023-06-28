@@ -3,14 +3,12 @@
 
 ### Creating a new Storage Account and child container
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<region>"
 
 az storage account create \
     --name $storageName \
     --resource-group $rgName \
-    --location $location \
+    --location $region \
     --sku Standard_LRS \
     --default-action Allow
 
@@ -51,7 +49,7 @@ sasToken=$(az storage account generate-sas \
 containerURL=$(az storage account show \
     --resource-group $rgName \
     --name $storageName \
-    --query primaryEndpoints.blob 
+    --query primaryEndpoints.blob \
     --output tsv)"mycontainer/?"$sasToken
 
 azcopy copy $localPath"/*" $containerURL
@@ -64,4 +62,9 @@ az storage blob list \
     --account-key $storageKey1 \
     --container-name "mycontainer" \
     --query [].name
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

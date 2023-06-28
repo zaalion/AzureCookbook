@@ -3,15 +3,13 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location=<region>
 
 az storage account create \
     --name $storageName \
     --resource-group $rgName \
-    --location $location \
-    --sku Standard_LRS 
+    --location $region \
+    --sku Standard_LRS
 ```
 
 ### Setting the expiry date variable
@@ -41,4 +39,9 @@ sasToken=$(az storage account generate-sas \
     --output tsv)
 
 echo $sasToken
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

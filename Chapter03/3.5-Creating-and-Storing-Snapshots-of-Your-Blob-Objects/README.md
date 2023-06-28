@@ -3,14 +3,12 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 storageName="<storage-account-name>"
-location="<region>"
 
 az storage account create \
     --name $storageName \
     --resource-group $rgName \
-    --location $location \
+    --location $region \
     --sku Standard_LRS \
     --default-action Allow
 ```
@@ -52,13 +50,10 @@ az storage blob snapshot \
     --account-key $storageKey1 \
     --account-name $storageName \
     --container-name $containerName \
-    --name $blobFileName 
+    --name $blobFileName
 ```
 
-### Showing available snapshots for a given blob
+### Clean up
 ```
-az snapshot show \
-    --resource-group $rgName \
-    --name $blobFileName \
-    --resource-group $rgName
+az group delete --name $rgName
 ```
