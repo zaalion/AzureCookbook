@@ -3,8 +3,7 @@
 
 ### Provisioning an Azure App Service Plan
 ```
-rgName="<resource-group-name>"
-planName="<plane-name>"
+planName="<plan-name>"
 
 az appservice plan create \
   --name $planName \
@@ -31,7 +30,7 @@ appHost=$(az webapp show \
   --resource-group $rgName \
   --name $appName \
   --query defaultHostName \
-  -o tsv)
+  --output tsv)
 
 appURL="https://"$appHost"/index.html"
 

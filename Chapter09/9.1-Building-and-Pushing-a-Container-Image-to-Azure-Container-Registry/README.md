@@ -25,7 +25,6 @@ docker build -t static-html-image -f Dockerfile .
 
 ### Provisioning a new Azure Container Registry (ACR)
 ```
-rgName="<resource-group-name>"
 registryName="<registry-name>"
 
 az acr create \
@@ -41,17 +40,17 @@ acrLoginServer=$(az acr show \
   --resource-group $rgName \
   --name $registryName \
   --query loginServer \
-  -o tsv)
+  --output tsv)
 
 acrAdminUser=$(az acr credential show \
   --name $registryName \
   --query username \
-  -o tsv)
+  --output tsv)
 
 acrAdminPass=$(az acr credential show \
   --name $registryName \
   --query passwords[0].value \
-  -o tsv)
+  --output tsv)
 ```
 
 ### Tagging your Docker image (creating a new version)

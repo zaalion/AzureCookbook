@@ -3,7 +3,6 @@
 
 ### Upgrading the ACR to the Premium tier
 ```
-rgName="<resource-group-name>"
 registryName="<acr-name>"
 
 az acr update \
@@ -18,7 +17,7 @@ acrId=$(az acr show \
   --name $registryName \
   --resource-group $rgName \
   --query id \
-  -o tsv)
+  --output tsv)
 ```
 
 ### Disabling public network access in ACR
@@ -59,7 +58,7 @@ acrId=$(az acr show \
   --name $registryName \
   --resource-group $rgName \
   --query id \
-  -o tsv)
+  --output tsv)
 
 az role assignment create \
   --assignee $identitySpId \
@@ -97,9 +96,14 @@ aciIP=$(az container show \
   --name $aciName \
   --resource-group $rgName \
   --query ipAddress.ip \
-  -o tsv)
+  --output tsv)
 
 aciURL="http://"$aciIP"/index.html"
 
 echo $aciURL
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

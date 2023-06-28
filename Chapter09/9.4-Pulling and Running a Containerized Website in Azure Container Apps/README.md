@@ -14,7 +14,6 @@ az provider register --namespace Microsoft.OperationalInsights
 
 ### Provisioning a new Azure Container App Environment
 ```
-rgName="<resource-group-name>"
 envName="cookbook-env"
 
 az containerapp env create \
