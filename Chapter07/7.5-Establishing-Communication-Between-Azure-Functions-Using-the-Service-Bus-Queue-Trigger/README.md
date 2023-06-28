@@ -59,3 +59,8 @@ public void Run([ServiceBusTrigger
         $"{myQueueItem}");
 }
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

@@ -3,15 +3,14 @@
 
 ### Provisioning an Azure VNet
 ```
-rgName="<resource-group-id>"
 vnetName="<vnet-name>"
 
 az network vnet create \
-    --resource-group $rgName \
-    --name $vnetName \
-    --address-prefix 10.0.0.0/16 \
-    --subnet-name Subnet01 \
-    --subnet-prefix 10.0.0.0/26
+  --resource-group $rgName \
+  --name $vnetName \
+  --address-prefix 10.0.0.0/16 \
+  --subnet-name Subnet01 \
+  --subnet-prefix 10.0.0.0/26
 ```
 
 ### Grab the name of your running Function App
@@ -40,4 +39,9 @@ az functionapp config access-restriction add \
   --vnet-name $vnetName \
   --subnet Subnet01 \
   --priority 200
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

@@ -3,15 +3,13 @@
 
 ### Provisioning a new Azure Storage Account
 ```
-rgName="<resource-group-name>"
 funcStorageAccountName="<func-app-storage-account-name>"
-location="<region>"
 
 az storage account create \
-   --name $funcStorageAccountName \
-   --resource-group $rgName \
-   --location $location \
-   --sku Standard_LRS
+  --name $funcStorageAccountName \
+  --resource-group $rgName \
+  --location $region \
+  --sku Standard_LRS
 ```
 
 ### Provisioning a new Azure Function App
@@ -24,7 +22,7 @@ az functionapp create \
   --storage-account $funcStorageAccountName \
   --functions-version 4 \
   --https-only true \
-  --consumption-plan-location $location
+  --consumption-plan-location $region
 ```
 
 ### HTTP-triggered function body
@@ -39,4 +37,9 @@ az functionapp create \
 
     return new OkObjectResult(addition);
 }
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

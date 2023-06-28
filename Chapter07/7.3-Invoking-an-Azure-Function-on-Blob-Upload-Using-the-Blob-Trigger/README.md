@@ -49,9 +49,14 @@ public static void Run(Stream myBlob, string name, ILogger log)
 ### Uploading a blob
 ```
 az storage blob upload \
-    --account-key $storageKey \
-    --file <local-file-path> \
-    --account-name $storageAccountName \
-    --container-name "newblobs" \
-    --name <blob-name>
+  --account-key $storageKey \
+  --file <local-file-path>\myBlob01.txt
+  --account-name $storageAccountName \
+  --container-name "newblobs" \
+  --name "myBlob01.txt"
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```

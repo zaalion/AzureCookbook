@@ -24,3 +24,8 @@ public static void Run(TimerInfo myTimer, ILogger log)
   ]
 }
 ```
+
+### Clean up
+```
+az group delete --name $rgName
+```

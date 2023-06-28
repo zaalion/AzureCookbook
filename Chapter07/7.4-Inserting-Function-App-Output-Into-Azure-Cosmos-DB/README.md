@@ -59,9 +59,14 @@ public static void Run(Stream myBlob, string name
 ### Uploading a blob file
 ```
 az storage blob upload \
-    --account-key $storageKey \
-    --file <local-file-path> \
-    --account-name $storageAccountName \
-    --container-name "newblobs" \
-    --name <blob-name>
+  --account-key $storageKey \
+  --file <local-file-path>\myBlob02.txt
+  --account-name $storageAccountName \
+  --container-name "newblobs" \
+  --name "myBlob02.txt"
+```
+
+### Clean up
+```
+az group delete --name $rgName
 ```
