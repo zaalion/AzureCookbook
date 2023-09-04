@@ -53,7 +53,7 @@ az network vnet subnet create \
 ### Create the Bastion resource:
 ```
 az network bastion create \
-  --location $region \
+  --location $location \
   --name MyBastionHost01 \
   --public-ip-address $ipName \
   --resource-group $rgName \
